@@ -5,11 +5,16 @@ import { redirect } from "next/navigation";
 import { OverviewPage } from "./(overview)/overview";
 import { PlansPage } from "./(plans)/plans";
 import { UsersPage } from "./(users)/users";
+import { toast } from "@/components/ui/use-toast";
 
 export default async function Page(){
   const session = await getSignedInUser();
 
-  if (session.user.role == Role.ADMIN) {
+  if (!(session.user.role == Role.ADMIN)) {
+    toast({
+        title: "No permission",
+        description: "You don't have the role ADMIN and can't view this page. "
+    })
     redirect("/dashboard");
   }
 
