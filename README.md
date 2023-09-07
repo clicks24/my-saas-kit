@@ -14,26 +14,23 @@ In the projects root directory, rename the .env.example file to .env.
 
 ### Database
 
-Any database connection, you can get a free MySQL server by visiting https://www.planetscale.com
+```DATABASE_URL:```
 
-```
-DATABASE_URL: 
-```
+Any database connection, you can get a free MySQL server by visiting https://www.planetscale.com
 
 ### Stripe 
 
-Get your stripe keys: https://stripe.com/docs/keys
 ```STRIPE_SECRET:```
+
+Get your stripe keys: https://stripe.com/docs/keys
 
 ### Email 
 
-Create a free Resend account and paste in your API key: https://resend.com
-
 ```RESEND_SECRET:```
 
-### File uploads
+Create a free Resend account and paste in your API key: https://resend.com
 
-Create a free UploadThing account, and create an app and paste in your keys: https://www.uploadthing.com
+### File uploads
 
 ```
 UPLOADTHING_SECRET: 
@@ -41,29 +38,29 @@ UPLOADTHING_APP_ID:
 UPLOADTHING_URL: <can be http://localhost:3000 for development, then your production url on prod>
 ```
 
-### NextAuth
+Create a free UploadThing account, and create an app and paste in your keys: https://www.uploadthing.com
 
-Read more about the next-auth options: https://next-auth.js.org/configuration/options
+### NextAuth
 
 ```
 NEXTAUTH_URL: <can be http://localhost:3000 for development, then your production url on prod>
 NEXTAUTH_SECRET: <random hash>
 ```
 
+Read more about the next-auth options: https://next-auth.js.org/configuration/options
+
 ## 3. Install
 
-Next, to install the projects dependencies, run the following command in your console inside of the projects directory:
-
 ```npm install```
+
+Next, to install the projects dependencies, run the following command in your console inside of the projects directory:
 
 ## 4. Generate Prisma 
 
 In order to make sure your DB has the correct schema run:
-
 ```npx prisma db push```
 
 Then, generate the prisma client using: 
-
 ```npx prisma generate```
 
 ## 5. Run
