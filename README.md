@@ -60,7 +60,7 @@ Next, to install the projects dependencies, run the following command in your co
 
 In order to make sure your DB has the correct schema run:
 
-``npx prisma db push```
+```npx prisma db push```
 
 Then, generate the prisma client using: 
 
