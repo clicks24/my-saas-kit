@@ -7,7 +7,12 @@ export const ourFileRouter = {
     profilePictureUploader: f({ image: { maxFileSize: "4MB" } })
         .middleware(async ({ req }) => {
 
-            const cookie = req.cookies.get('next-auth.session-token')?.value;
+            let cookie = req.cookies.get('next-auth.session-token')?.value;
+
+            if(!cookie){
+                cookie = req.cookies.get('__Secure-next-auth.session-token')?.value;
+            }
+
             const session = await prisma.session.findFirst({ where: { sessionToken: cookie }, include: { user: true } });
 
             if (!session) throw new Error("Unauthorized");
