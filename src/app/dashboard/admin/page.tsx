@@ -6,11 +6,7 @@ import { OverviewPage } from "./(overview)/overview";
 import { PlansPage } from "./(plans)/plans";
 import { UsersPage } from "./(users)/users";
 
-export default async function DashboardLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function Page(){
   const session = await getSignedInUser();
 
   if (session.user.role == Role.ADMIN) {

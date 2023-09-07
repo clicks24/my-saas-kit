@@ -83,7 +83,7 @@ function Features() {
   );
 }
 
-export function Hero() {
+function Hero() {
   return (
     <div className="max-w-7xl m-auto px-4 min-h-[70vh] grid items-center ">
       <div className="flex flex-col items-center">
