@@ -1,0 +1,7 @@
+{
+  "WillLuke.nextjs.hasPrompted": true,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": true
+  }
+}
