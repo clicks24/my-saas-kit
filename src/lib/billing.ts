@@ -68,6 +68,7 @@ export async function getCompletedPlans() {
         const month = await stripe.prices.retrieve(plan.stripe_price_monthly_id);
         const year = await stripe.prices.retrieve(plan.stripe_price_yearly_id);
 
+
         result.push(
             {
                 plan: plan,
@@ -77,5 +78,6 @@ export async function getCompletedPlans() {
         )
     }
 
+    result.sort((a, b)=>((a.stripe_price_monthly.unit_amount ?? 0) > (b.stripe_price_monthly.unit_amount ?? 0) ? 1 : 0))
     return result;
 }

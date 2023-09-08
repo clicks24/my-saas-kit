@@ -18,7 +18,6 @@ export default async function Page() {
   const user = await prisma.user.findFirst({ where: { id: session?.user.id } });
   const subs = await getSubscriptions("" + user?.customer_id);
   const plans = await getCompletedPlans();
-  const portalLink = await getCustomerPortalLink("" + user?.customer_id);
 
   return (
     <main className="w-full">
@@ -29,7 +28,7 @@ export default async function Page() {
           <TabsTrigger value="billing">Billing</TabsTrigger>
         </TabsList>
         <TabsContent value="account">
-          <div className="flex flex-col divide-y dark:divide-zinc-800 divide-zinc-200 w-full">
+          <div className="flex flex-col gap-8 w-full">
             <PersonalInfo session={session} />
             <ContactInfo session={session} />
           </div>
@@ -37,7 +36,7 @@ export default async function Page() {
         <TabsContent value="billing">
           <PricingTable
             contentLeft={
-              <Link href={portalLink}>
+              <Link href={"/checkout/portal"}>
                 <Button size={"sm"}>Manage billing</Button>
               </Link>
             }

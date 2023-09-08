@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/database";
+import { revalidatePath } from "next/cache";
 import { createUploadthing, type FileRouter } from "uploadthing/next";
 
 const f = createUploadthing();
@@ -28,6 +29,10 @@ export const ourFileRouter = {
                     image: file.url
                 }
             })
+
+            revalidatePath("/onboarding/account")
+            revalidatePath("/dashboard/settings")
+
         }),
 } satisfies FileRouter;
 

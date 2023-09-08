@@ -7,6 +7,7 @@ import { redirect } from "next/navigation";
 
 const dynamic = 'force-dynamic'
 const revalidate = 0
+
 export default async function Page({ params: { id } }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
 

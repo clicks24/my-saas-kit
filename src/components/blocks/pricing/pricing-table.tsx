@@ -21,30 +21,55 @@ export function PricingTable({
 }) {
   const [yearly, setYearly] = useState(false);
 
-return (
+  let highestPlan = currentPlans
+    ?.sort((a, b) =>
+      (a.stripe_price_monthly.unit_amount ?? 0) >
+      (b.stripe_price_monthly.unit_amount ?? 0)
+        ? 1
+        : 0
+    )
+    .at(0);
+
+  console.log(highestPlan);
+
+  return (
     <div className="max-w-4xl m-auto w-full">
       <div className="flex justify-between items-center space-x-2 pb-8">
         <div>{contentLeft}</div>
         <div className="flex items-center space-x-2">
+          <Label htmlFor="pricing-period">Billed monthly</Label>
           <Switch
             checked={yearly}
             onCheckedChange={(e) => setYearly(e)}
             id="pricing-period"
           />
-          <Label htmlFor="pricing-period">Switch to yearly</Label>
+          <Label htmlFor="pricing-period">Billed yearly</Label>
         </div>
       </div>
       {plans.length == 0 && (
         <div className="grid place-items-center px-4 py-10">
           <div className="flex items-center gap-4">
             <AlertTriangle />
-            <p className="text-sm">There are no available subscription plans yet!</p>
+            <p className="text-sm">
+              There are no available subscription plans yet!
+            </p>
           </div>
         </div>
       )}
-      <div className={cn("grid gap-8", "grid-cols-3")}>
+      <div className={cn("grid gap-8", "sm:grid-cols-3")}>
         {plans.map((item, index) => (
-          <div key={index} className="p-6 border dark:border-zinc-800 border-zinc-200 rounded-lg">
+          <div
+            key={index}
+            className={cn(
+              "p-6 border dark:border-zinc-800 border-zinc-200 rounded-lg",
+              {
+                "dark:border-emerald-600 border-emerald-400":
+                  (currentPlans?.filter(
+                    (item2) => item2.plan.id == item.plan.id
+                  ).length ?? 0) > 0,
+              }
+            )}
+          >
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-2">
                 <p className="text-sm">{item.plan.name}</p>
@@ -79,17 +104,46 @@ return (
                 {(currentPlans?.filter((item2) => item2.plan.id == item.plan.id)
                   .length ?? 0) > 0 ? (
                   <Button disabled className="rounded-full w-full">
-                    Get started
+                    Active plan
                   </Button>
                 ) : (
-                  <Link
-                    href={
-                      "/checkout/" +
-                      (yearly ? ""+item.plan.stripe_price_yearly_id : ""+item.plan.stripe_price_monthly_id)
-                    }
-                  >
-                    <Button className="rounded-full w-full">Get started</Button>
-                  </Link>
+                  <>
+                    {highestPlan ? (
+                      <>
+                        {
+                          //@ts-ignore
+                          highestPlan.stripe_price_monthly.unit_amount >
+                          //@ts-ignore
+                          item.stripe_price_monthly.unit_amount ? (
+                            <Link href={"/checkout/portal"}>
+                              <Button className="rounded-full w-full">
+                                Downgrade
+                              </Button>
+                            </Link>
+                          ) : (
+                            <Link href={"/checkout/portal"}>
+                              <Button className="rounded-full w-full">
+                                Upgrade
+                              </Button>
+                            </Link>
+                          )
+                        }
+                      </>
+                    ) : (
+                      <Link
+                        href={
+                          "/checkout/" +
+                          (yearly
+                            ? "" + item.plan.stripe_price_yearly_id
+                            : "" + item.plan.stripe_price_monthly_id)
+                        }
+                      >
+                        <Button className="rounded-full w-full">
+                          Get Started
+                        </Button>
+                      </Link>
+                    )}
+                  </>
                 )}
               </div>
             </div>

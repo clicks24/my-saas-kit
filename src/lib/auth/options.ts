@@ -13,7 +13,7 @@ export const authOptions = {
     pages: {
         "signIn": '/auth/sign-in',
         "verifyRequest": "/auth/magic-link-sent",
-        "newUser": "/auth/setup-account"
+        "newUser": "/onboarding/account"
     },
     callbacks: {
         async session({ session, token, user }) {

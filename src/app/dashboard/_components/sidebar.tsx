@@ -1,7 +1,7 @@
 "use client";
 
 import { GradientBorder } from "@/components/ui/gradient-border";
-import { ChevronsUpDown, Home, Menu, Moon, Settings, Sun } from "lucide-react";
+import { ChevronsUpDown, CreditCard, Home, Menu, Moon, Settings, Sun } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -122,6 +122,7 @@ export default function Sidebar({ session }: { session: Session }) {
                 title="Settings"
                 href="/dashboard/settings"
               />
+              
             </div>
           </div>
           <div className="py-8 max-w-[250px]">

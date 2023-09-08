@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeftCircle } from "lucide-react";
 import Link from "next/link";
 
-export default async function RootLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -17,7 +17,7 @@ export default async function RootLayout({
         </Button>
       </Link>
       <div className="grid place-items-center h-full">
-        <div className="max-w-sm w-full dark:bg-zinc-black/30 backdrop-blur-2xl sm:mt-28 mt-8 sm:p-8 px-4 sm:border dark:border-zinc-800 border-zinc-400 rounded-xl">
+        <div className="max-w-sm w-full sm:mt-28 mt-8 p-8 border dark:border-zinc-800 border-zinc-400 rounded-xl">
           {children}
         </div>
       </div>
