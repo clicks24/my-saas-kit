@@ -3,8 +3,8 @@ import { format } from "date-fns";
 import { CSSProperties } from "react";
 import { User } from "@prisma/client";
 
-export function generateChartData(users: User[]){
-let today = new Date()
+export function generateChartData(users: User[]) {
+  let today = new Date();
   let data = [];
 
   const dates = [...Array(7)].map((_, i) => {
@@ -16,14 +16,16 @@ let today = new Date()
   for (var day of dates) {
     let count = 0;
     for (var user of users) {
-
       const userJoinedOn = new Date(user.created.toDateString());
       const compareDate = new Date(day.toDateString());
 
-      if(userJoinedOn.getDate()==day.getDate() && userJoinedOn.getMonth()==day.getMonth()){
+      if (
+        userJoinedOn.getDate() == compareDate.getDate() &&
+        userJoinedOn.getMonth() == compareDate.getMonth() &&
+        userJoinedOn.getFullYear() == compareDate.getFullYear()
+      ) {
         count++;
       }
-
     }
 
     data.push({
@@ -31,15 +33,15 @@ let today = new Date()
       value: count,
     });
   }
-  
-  return data;
+
+  return data.reverse();
 }
 
 export function Chart({ data }: { data: { value: number; date: Date }[] }) {
   let xScale = d3
     .scaleTime()
     .domain([data[0].date, data[data.length - 1].date])
-  
+
     .range([0, 100]);
   let yScale = d3
     .scaleLinear()
@@ -80,7 +82,7 @@ export function Chart({ data }: { data: { value: number; date: Date }[] }) {
         "
       >
         {data.map((day, i) => (
-          <g key={i} className="overflow-visible font-medium text-gray-500">
+          <g key={i} className="overflow-visible font-medium text-zinc-400">
             <text
               x={`${xScale(day.date)}%`}
               y="100%"
@@ -125,7 +127,7 @@ export function Chart({ data }: { data: { value: number; date: Date }[] }) {
                 y={`${yScale(+value)}%`}
                 alignmentBaseline="middle"
                 textAnchor="end"
-                className="text-xs tabular-nums text-gray-600"
+                className="text-xs tabular-nums text-zinc-500"
                 fill="currentColor"
               >
                 {value}
@@ -156,7 +158,7 @@ export function Chart({ data }: { data: { value: number; date: Date }[] }) {
             .map((active, i) => (
               <g
                 transform={`translate(0,${yScale(+active)})`}
-                className="text-gray-700"
+                className="text-zinc-500"
                 key={i}
               >
                 <line
@@ -174,25 +176,12 @@ export function Chart({ data }: { data: { value: number; date: Date }[] }) {
           <path
             d={d}
             fill="none"
-            className="text-gray-600"
+            className="text-zinc-500"
             stroke="currentColor"
             strokeWidth="2"
             vectorEffect="non-scaling-stroke"
           />
-
-          {/* Circles */}
-          {data.map((d) => (
-            <path
-              key={d.date.toString()}
-              d={`M ${xScale(d.date)} ${yScale(d.value)} l 0.0001 0`}
-              vectorEffect="non-scaling-stroke"
-              strokeWidth="8"
-              strokeLinecap="round"
-              fill="none"
-              stroke="currentColor"
-              className="text-gray-400"
-            />
-          ))}
+          
         </svg>
       </svg>
     </div>

@@ -7,38 +7,23 @@ import { PlansPage } from "./(plans)/plans";
 import { UsersPage } from "./(users)/users";
 import { toast } from "@/components/ui/use-toast";
 
-export default async function Page(){
+export default async function Page() {
   const session = await getSignedInUser();
 
   if (!(session.user.role == Role.ADMIN)) {
     toast({
-        title: "No permission",
-        description: "You don't have the role ADMIN and can't view this page. "
-    })
+      title: "No permission",
+      description: "You don't have the role ADMIN and can't view this page. ",
+    });
     redirect("/dashboard");
   }
 
   return (
     <main>
-      <Tabs defaultValue="overview">
-        <div className="flex items-center justify-between pb-4 mb-8 border-b dark:border-zinc-800 border-zinc-200">
-          <h1 className="font-display text-2xl">Admin</h1>
-          <TabsList className="flex items-center gap-2 w-fit">
-            <TabsTrigger value="overview">Overview</TabsTrigger>
-            <TabsTrigger value="users">Users</TabsTrigger>
-            <TabsTrigger value="plans">Plans</TabsTrigger>
-          </TabsList>
-        </div>
-        <TabsContent value="overview">
-          <OverviewPage />
-        </TabsContent>
-        <TabsContent value="users">
-          <UsersPage />
-        </TabsContent>
-        <TabsContent value="plans">
-          <PlansPage />
-        </TabsContent>
-      </Tabs>
+      <h1 className="font-display text-2xl mb-4 pb-4 dark:border-zinc-800 border-zinc-200 border-b">
+        Admin
+      </h1>
+      <OverviewPage />
     </main>
   );
 }

@@ -33,11 +33,9 @@ export async function PlansPage({}) {
 
   return (
     <main>
-      <div className="flex w-full items-center justify-between pb-6">
-        <h1 className="font-display text-2xl">Plans</h1>
         <Dialog>
           <DialogTrigger asChild>
-            <Button variant="outline" size={"xs"}>
+            <Button variant="outline" size={"sm"} className="mb-4">
               Create
             </Button>
           </DialogTrigger>
@@ -51,7 +49,6 @@ export async function PlansPage({}) {
             <CreateProductForm />
           </DialogContent>
         </Dialog>
-      </div>
       <div className="rounded-md border dark:border-zinc-800 border-zinc-200">
         <Table>
           <TableHeader>
