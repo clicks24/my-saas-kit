@@ -1,7 +1,15 @@
 "use client";
 
 import { GradientBorder } from "@/components/ui/gradient-border";
-import { ChevronsUpDown, CreditCard, Home, Menu, Moon, Settings, Sun } from "lucide-react";
+import {
+  ChevronsUpDown,
+  CreditCard,
+  Home,
+  Menu,
+  Moon,
+  Settings,
+  Sun,
+} from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -81,48 +89,17 @@ export default function Sidebar({ session }: { session: Session }) {
                 <img src="/logo.svg" className="w-10 h-10 rounded-full" />
               </Link>
             </div>
-            <div className="px-4 py-6">
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <div className="p-2 flex justify-between border dark:border-zinc-800 border-zinc-200 duration-150 items-center gap-2 dark:hover:bg-zinc-800 hover:bg-zinc-200/70 rounded-md cursor-pointer">
-                    <p className="truncate text-sm">{workSpace}</p>
-                    <ChevronsUpDown size={16} />
-                  </div>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                  <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <Link href={"/dashboard"}>Personal</Link>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem>
-                    {session.user.role == Role.ADMIN ? (
-                      <Link href={"/dashboard/admin"}>Admin</Link>
-                    ) : (
-                      <p className="flex w-full items-center justify-between gap-2">
-                        Admin{" "}
-                        <p className="text-xs text-rose-500 bg-rose-400/20 px-2 py-1 rounded-md">
-                          NO PERMISSION
-                        </p>
-                      </p>
-                    )}
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-            <div className="flex flex-col gap-2 px-4">
+            <div className="flex flex-col gap-2 px-4 py-8">
               <SidebarItem
                 icon={<Home size={18} />}
                 title="Dashboard"
                 href="/dashboard"
               />
-
               <SidebarItem
                 icon={<Settings size={18} />}
                 title="Settings"
                 href="/dashboard/settings"
               />
-              
             </div>
           </div>
           <div className="py-8 max-w-[250px]">
@@ -155,6 +132,19 @@ export default function Sidebar({ session }: { session: Session }) {
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <button onClick={() => signOut()}>Log out</button>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>
+                  {session.user.role == Role.ADMIN ? (
+                    <Link href={"/dashboard/admin"}>Admin</Link>
+                  ) : (
+                    <p className="flex w-full items-center justify-between gap-2">
+                      Admin{" "}
+                      <p className="text-xs text-rose-500 bg-rose-400/20 px-2 py-1 rounded-md">
+                        NO PERMISSION
+                      </p>
+                    </p>
+                  )}
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
