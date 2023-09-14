@@ -48,34 +48,34 @@ function Features() {
           <FeatureCard
             icon={<Lock size={16} />}
             feature="Authentication"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Use any OAuth provider supported by next-auth."
           />
           <FeatureCard
             icon={<CreditCard size={16} />}
             feature="Subscriptions"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Create monthly and yearly billing plans. Let users manage thier billing plan."
           />
           <FeatureCard
             icon={<Paintbrush size={16} />}
             feature="Fully customizable"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Fully customizable component library using Tailwind."
           />
         </div>
         <div className="flex flex-col gap-8">
           <FeatureCard
             icon={<Mail size={16} />}
             feature="Mail templates"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Create email templates using react-email."
           />
           <FeatureCard
             icon={<Server size={16} />}
             feature="Serverless architecture"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Deploy painlessly using Vercel or any serverless provider."
           />
           <FeatureCard
             icon={<Code2 size={16} />}
             feature="Developer experience"
-            description="Supports sign in with email, 40+ OAuth providers like Google, Github, ...etc. Let users manage thier profile and account."
+            description="Easy to use, clean code, expertly crafted."
           />
         </div>
       </div>
@@ -88,14 +88,14 @@ function Hero() {
     <div className="max-w-7xl m-auto px-4 min-h-[70vh] grid items-center ">
       <div className="flex flex-col items-center">
         <h1 className="text-center bg-gradient-to-r max-w-4xl dark:from-white dark:to-zinc-300 from-black to-zinc-700 bg-clip-text text-transparent text-4xl sm:text-5xl sm:leading-none lg:text-6xl">
-          Build this weekend
+          Build this weekend.
           <br />
           <span className="bg-gradient-to-r from-violet-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
-            Ship on monday
+            Ship on monday.
           </span>
         </h1>
         <p className="text-center py-6 text-sm sm:text-base lg:text-lg text-muted max-w-[60ch] opacity-80">
-          Build whatever you want with this kit, we hope you enjoy.
+        The best NextJS kit for starting and scaling your software business.
         </p>
         <div className="flex items-center gap-4">
           <Link href={"/starter-kits"}>

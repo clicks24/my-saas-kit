@@ -53,7 +53,7 @@ export function ContactInfo({ session }: { session: Session }) {
   return (
       <Card>
         <CardHeader>
-          <CardTitle>Contact Information</CardTitle>
+          <CardTitle>Contact</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...form}>

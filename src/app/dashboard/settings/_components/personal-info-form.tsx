@@ -53,7 +53,7 @@ export function PersonalInfo({ session }: { session: Session }) {
   return (
       <Card>
         <CardHeader>
-          <CardTitle>Personal Information</CardTitle>
+          <CardTitle>Account</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex flex-col sm:flex-row items-start gap-8">
