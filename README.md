@@ -18,6 +18,8 @@ In the projects root directory, rename the .env.example file to .env.
 
 Any database connection, you can get a free MySQL server by visiting https://www.planetscale.com
 
+By default, it is setup to use Vercel Postgres, if you are using MySQL, change the provider to mysql and update the relation mode.
+
 ### Stripe 
 
 ```STRIPE_SECRET:```
@@ -29,6 +31,8 @@ Get your stripe keys: https://stripe.com/docs/keys
 ```RESEND_SECRET:```
 
 Create a free Resend account and paste in your API key: https://resend.com
+
+Connect your domain, and replace the email in ```src/lib/email/mailer.ts``` file.
 
 ### File uploads
 
