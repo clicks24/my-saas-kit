@@ -77,7 +77,7 @@ export default async function Page() {
           </CardFooter>
         </Card>
       </div>
-      <div className="">
+      <div className="mt-8">
         {subscriptions.length > 0 ? (
           <Card>
             <CardHeader>
