@@ -8,11 +8,15 @@ import {
 } from "@/components/ui/card";
 import { GradientBorder } from "@/components/ui/gradient-border";
 import { authOptions } from "@/lib/auth/options";
+import { getSubscriptions } from "@/lib/billing";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 export default async function Page() {
   const session = await getServerSession(authOptions);
+  const subscriptions = await getSubscriptions(
+    String(session?.user.stripe_customer_id)
+  );
 
   return (
     <main>
@@ -72,6 +76,35 @@ export default async function Page() {
             </Link>
           </CardFooter>
         </Card>
+      </div>
+      <div className="">
+        {subscriptions.length > 0 ? (
+          <Card>
+            <CardHeader>
+              <CardTitle>You have a subscription</CardTitle>
+              <CardDescription>
+                You have the subscription: {subscriptions.at(0)?.plan.name}
+              </CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <Link href={"/dashboard/settings"}>
+                <Button size={"sm"}>Settings</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        ) : (
+          <Card>
+            <CardHeader>
+              <CardTitle>You do not have a subscription</CardTitle>
+              <CardDescription>You are on the free plan.</CardDescription>
+            </CardHeader>
+            <CardFooter>
+              <Link href={"/dashboard/settings"}>
+                <Button size={"sm"}>Settings</Button>
+              </Link>
+            </CardFooter>
+          </Card>
+        )}
       </div>
     </main>
   );
