@@ -104,7 +104,7 @@ function Hero() {
               <ChevronRightCircle size={16} />
             </Button>
           </Link>
-          <Link href={"/templates"}>
+          <Link href={"https://www.youtube.com/watch?v=Q1L5rWcj8zg"}>
             <Button variant={"ghost"} className="rounded-full gap-2">
               Setup guide
               <ChevronRightCircle size={16} />
