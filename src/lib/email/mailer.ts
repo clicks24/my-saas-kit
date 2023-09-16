@@ -6,7 +6,7 @@ export const resend = new Resend(serverEnv.RESEND_SECRET);
 
 export async function sendMagicLinkEmail(to: string, signInLink: string) {
     const data = await resend.emails.send({
-        from: 'no-reply@saasplanet.app',
+        from: 'onboarding@resend.dev',
         to: [to],
         subject: "Magic sign-in link",
         react: MagicLinkEmail({ signInLink: signInLink, sentTo: to }),
