@@ -12,7 +12,7 @@ export default async function Page({ params: { id } }: { params: { id: string } 
   const session = await getServerSession(authOptions);
 
   if (!session) {
-    redirect("/auth/sign-in&redirect_url=/checkout/" + id);
+    redirect("/auth/sign-in?redirect_url=/checkout/" + id);
   }
 
   let cus_id = "";
