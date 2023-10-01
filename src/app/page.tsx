@@ -120,7 +120,7 @@ function TechStackHero() {
   );
 }
 
-export function SocialProofCTA() {
+function SocialProofCTA() {
   return (
     <div className="flex flex-col w-full items-center py-28 dark:bg-zinc-900/60 bg-zinc-50">
       <div className="flex flex-col items-center px-4">
