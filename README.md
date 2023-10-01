@@ -18,7 +18,14 @@ In the projects root directory, rename the .env.example file to .env.
 
 Any database connection, you can get a free MySQL server by visiting https://www.planetscale.com
 
-By default, it is setup to use Vercel Postgres, if you are using MySQL, change the provider to mysql and update the relation mode.
+By default, it is setup to use Vercel Postgres.
+
+### If using MySQL (or PlanetScale) update your schema to: 
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  relationMode = "prisma"
+}
 
 ### Stripe 
 
