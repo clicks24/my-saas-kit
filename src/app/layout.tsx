@@ -1,19 +1,20 @@
 import { Provider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
-import type { Metadata } from 'next';
-import { Poppins } from "next/font/google";
+import type { Metadata } from "next";
+import localFont from "next/font/local";
 import "./globals.css";
+import { AuthProvider } from "@/components/providers/auth-provider";
 
 export const metadata: Metadata = {
-  title: 'SaaS Kit',
-  description: 'The ultimate SaaS Kit. Build this weekend, ship on monday.',
-  icons: '/logo.svg'
-}
+  title: "SaaS Kit",
+  description: "The ultimate SaaS Kit. Build this weekend, ship on monday.",
+  icons: "/logo.svg",
+};
 
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
+const font = localFont({
+  src: "./font/Onest.ttf",
+  display: "swap",
 });
 
 export default function RootLayout({
@@ -23,8 +24,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={cn(poppins.className, "dark:bg-black bg-white")}>
-        <Provider>{children}</Provider>
+      <body className={cn(font.className, "dark:bg-black bg-white")}>
+        <AuthProvider>
+          <Provider>{children}</Provider>
+        </AuthProvider>
         <Toaster />
       </body>
     </html>

@@ -113,7 +113,7 @@ export default function Sidebar({ session }: { session: Session }) {
                     />
                   ) : (
                     <GradientBorder className="rounded-full w-fit">
-                      <div className="w-8 h-8 shrink-0 grid place-items-center text-white">
+                      <div className="w-8 h-8 shrink-0 grid place-items-center ">
                         <p className="font-medium">
                           {session.user?.email?.substring(0, 1)}
                         </p>

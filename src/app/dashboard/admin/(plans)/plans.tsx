@@ -33,13 +33,13 @@ export async function PlansPage({}) {
 
   return (
     <main>
-        <Dialog>
+        <Dialog >
           <DialogTrigger asChild>
             <Button variant="outline" size={"sm"} className="mb-4">
               Create
             </Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-2xl">
             <DialogHeader>
               <DialogTitle>Create plan</DialogTitle>
               <DialogDescription>

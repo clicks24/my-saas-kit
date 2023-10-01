@@ -20,13 +20,13 @@ export default async function Page({
   return (
     <main>
       <Header />
-      <div className="max-w-2xl m-auto px-4 w-full pb-10">
-        <div className="flex flex-col items-center py-10">
-          {/*@ts-ignore */}
-          <p className="opacity-80 text-sm">{frontmatter.date}</p>
-          <p className="text-4xl py-4">{frontmatter.title}</p>
-          {/*@ts-ignore */}
-          <p className="opacity-80 text-sm">By {frontmatter.author}</p>
+      <div className="max-w-2xl m-auto px-4 w-full pb-20">
+        <div className="flex flex-col items-center py-20">
+          <p className="dark:text-gray-300 text-gray-400 text-sm rounded-full border dark:border-zinc-800 border-zinc-200 px-4 h-8 grid place-items-center">
+            {/*@ts-ignore */}
+            Published on {frontmatter.date}
+          </p>
+          <p className="text-4xl font-medium py-6">{frontmatter.title}</p>
         </div>
         {content}
       </div>

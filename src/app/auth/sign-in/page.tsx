@@ -33,15 +33,15 @@ export default function Page() {
       )}
       <GradientBorder className="rounded-full w-fit dark:bg-black bg-white">
         <div className="w-10 h-10 shrink-0 grid place-items-center">
-         <Lock size={18} />
+          <Lock size={18} />
         </div>
       </GradientBorder>
 
       <div className="flex flex-col py-8">
-        <p className="dark:text-white text-black text-lg font-medium">Welcome</p>
-        <p className="text-zinc-400">
-          {"Please sign in or sign up below."}
+        <p className="dark:text-white text-black text-lg font-medium">
+          Welcome
         </p>
+        <p className="text-zinc-400">{"Please sign in or sign up below."}</p>
       </div>
       <div className="flex flex-col">
         <div className="flex flex-col pb-4">
@@ -53,7 +53,7 @@ export default function Page() {
           />
         </div>
         <Button
-          disabled={loading}
+          loading={loading}
           onClick={() => {
             setLoading(true);
             signIn("email", { email: email, callbackUrl: "/dashboard" });

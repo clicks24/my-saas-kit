@@ -21,11 +21,13 @@ import { toast } from "@/components/ui/use-toast";
 import { useRouter } from "next/navigation";
 import { createPlan, deletePlan, editPlan } from "../_actions/plan-actions";
 
+const priceRegex = /price_/;
+
 export const productSchema = z.object({
   name: z.string().min(2).max(64),
   description: z.string().min(2).max(255),
-  monthly_price: z.string().min(2).max(64),
-  yearly_price: z.string().min(2).max(64),
+  monthly_price: z.string().min(2).max(64).regex(priceRegex, "The price ID must begin with price_"),
+  yearly_price: z.string().min(2).max(64).regex(priceRegex, "The price ID must begin with price_"),
   features: z.string().min(2),
 });
 

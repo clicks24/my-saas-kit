@@ -13,7 +13,7 @@ export function Footer() {
 
   return (
     <div className="dark:border-zinc-800 border-zinc-200 border-y">
-    <div className='m-auto max-w-7xl px-4 py-20'>
+    <div className='m-auto max-w-7xl px-4 py-28'>
       <div className='grid gap-x-8 gap-y-12 sm:grid-cols-5'>
         <div className='col-span-2 flex flex-col gap-6'>
           <Link href='/'>
@@ -21,7 +21,7 @@ export function Footer() {
           </Link>
           <p className="text-sm opacity-80">© Acme, Inc. All rights reserved.</p>
         </div>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-4'>
           <p className='text-sm font-medium text-neutral-600'> PRODUCT</p>
           <Link
             href='/#pricing'
@@ -36,7 +36,7 @@ export function Footer() {
             <p>Features</p>
           </Link>
         </div>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-4'>
           <p className='text-sm font-medium text-neutral-600'>COMPANY</p>
           <Link
             href='https://discord.gg/sAcvuQACYQ'
@@ -51,7 +51,7 @@ export function Footer() {
             <p>Blog</p>
           </Link>
         </div>
-        <div className='flex flex-col gap-2'>
+        <div className='flex flex-col gap-4'>
           <p className='text-sm font-medium text-neutral-600'>LEGAL</p>
           <Link
             href='/#'

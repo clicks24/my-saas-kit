@@ -23,9 +23,10 @@ export function PlanSelector({
 
   return (
     <div className="flex flex-col m-auto w-full ">
-  
       <div className="flex flex-col pb-8">
-        <p className="dark:text-white text-center text-black text-lg font-medium">Choose Plan</p>
+        <p className="dark:text-white text-center text-black text-lg font-medium">
+          Choose Plan
+        </p>
       </div>
       <div className="grid gap-4 grid-cols-1">
         <div
@@ -33,8 +34,7 @@ export function PlanSelector({
           className={cn(
             "p-4 cursor-pointer border dark:border-zinc-800 border-zinc-200 rounded-lg",
             {
-              "dark:border-emerald-500 border-emerald-400":
-                selected == null,
+              "dark:border-emerald-500 border-emerald-400": selected == null,
             }
           )}
         >
@@ -57,8 +57,7 @@ export function PlanSelector({
             className={cn(
               "p-4 cursor-pointer border dark:border-zinc-800 border-zinc-200 rounded-lg",
               {
-                "dark:border-emerald-500 border-emerald-400 ":
-                  selected == item,
+                "dark:border-emerald-500 border-emerald-400 ": selected == item,
               }
             )}
           >
@@ -95,7 +94,7 @@ export function PlanSelector({
         {selected == null ? (
           <>
             <Link href="/dashboard">
-              <Button className="w-full" type="submit" size={"sm"}>
+              <Button className="w-full" type="submit">
                 Continue
               </Button>
             </Link>

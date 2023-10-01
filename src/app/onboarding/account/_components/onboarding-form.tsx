@@ -20,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const onboardingSchema = z.object({
   name: z.string().min(2).max(64),
@@ -28,6 +29,8 @@ const onboardingSchema = z.object({
 
 export function OnboardingForm({ user }: { user: User }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false)
+
   const form = useForm<z.infer<typeof onboardingSchema>>({
     //@ts-ignore
     resolver: zodResolver(onboardingSchema),
@@ -38,6 +41,7 @@ export function OnboardingForm({ user }: { user: User }) {
   });
 
   async function onSubmit(values: z.infer<typeof onboardingSchema>) {
+    setLoading(true)
     await completeOnboarding(values.name, values.last_name);
     toast({
       title: "Updated",
@@ -45,49 +49,15 @@ export function OnboardingForm({ user }: { user: User }) {
       variant: "default",
     });
     router.push("/onboarding/plan");
+    setLoading(false)
   }
 
   return (
     <div className="flex flex-col m-auto w-full ">
       <div className="flex flex-col pb-8">
         <p className="dark:text-white text-black text-lg font-medium text-center">
-         Add Account Details
+          Add Account Details
         </p>
-      </div>
-
-<div className="flex items-center justify-between pb-2">
-      <p className="text-sm font-medium leading-none">Profile picture</p>
-      <p className="text-xs font-normal leading-none opacity-50">OPTIONAL</p>
-      </div>
-      <div className="flex items-center gap-8 pb-4">
-        <img
-          src={
-            user.image?.length
-              ? user.image
-              : "https://as2.ftcdn.net/v2/jpg/00/64/67/63/1000_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"
-          }
-          className="w-20 h-20 rounded-full"
-        />
-        <div className="rounded-md w-full dark:border-zinc-800 border-zinc-200 border border-dashed px-6 py-4 text-sm">
-          <UploadButton
-            endpoint="profilePictureUploader"
-            onClientUploadComplete={(res) => {
-              toast({
-                title: "Profile picture changed",
-                description: "You now have a new profile picture",
-                variant: "default",
-              });
-              router.refresh();
-            }}
-            onUploadError={(error: Error) => {
-              toast({
-                title: "Error",
-                description: "There was an error chaning your profile picture",
-                variant: "destructive",
-              });
-            }}
-          />
-        </div>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
@@ -117,7 +87,7 @@ export function OnboardingForm({ user }: { user: User }) {
               </FormItem>
             )}
           />
-          <Button className="w-full" type="submit" size={"sm"}>
+          <Button loading={loading} className="w-full" type="submit">
             Continue
           </Button>
         </form>

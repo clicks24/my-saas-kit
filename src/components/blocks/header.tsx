@@ -2,18 +2,14 @@
 
 import useHasMounted from "@/lib/hooks/use-has-mounted";
 import { motion } from "framer-motion";
-import {
-  ChevronRightCircle,
-  Menu,
-  Moon,
-  Sun
-} from "lucide-react";
+import { ArrowRight, ChevronRightCircle, Menu, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Toggle } from "../ui/toggle";
+import { useSession } from "next-auth/react";
 
 type Tab = {
   id: number;
@@ -23,7 +19,6 @@ type Tab = {
 };
 
 //Define your header links
-
 let tabs = [
   {
     id: 0,
@@ -54,11 +49,10 @@ let tabs = [
 export function Header() {
   const [menu, setMenu] = useState(false);
   const mounted = useHasMounted();
-
+  const session = useSession();
   let [activeTab, setActiveTab] = useState(tabs[0].id);
   const pathname = usePathname();
   const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
 
   function toggleMenu() {
     setMenu(!menu);
@@ -114,16 +108,23 @@ export function Header() {
                   {theme == "light" ? <Sun size={16} /> : <Moon size={16} />}
                 </Toggle>
               )}
-              <Link href={"/auth"}>
-                <Button
-                  className="rounded-full gap-2"
-                  variant="ghost"
-                  size="sm"
-                >
-                  Sign in or sign up
-                  <ChevronRightCircle size={16} />
-                </Button>
-              </Link>
+
+              {session.status == "authenticated" ? (
+                <Link href={"/auth"}>
+                  <Button className="gap-2" variant="ghost">
+                    Dashboard
+                    <ArrowRight size={16} />
+                  </Button>
+                </Link>
+              ) : (
+                <Link href={"/auth"}>
+                  <Button className="gap-2" variant="ghost">
+                    Get started
+                    <ArrowRight size={16} />
+                  </Button>
+                </Link>
+              )}
+
               <button
                 className=" sm:hidden flex z-[100]"
                 onClick={() => toggleMenu()}

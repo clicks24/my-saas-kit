@@ -22,6 +22,7 @@ import { useRouter } from "next/navigation";
 import { updateContactInfo } from "../_actions/update-contact-action";
 import { Session } from "next-auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState } from "react";
 
 const contactInfoSchema = z.object({
   email: z.string().min(2).max(64),
@@ -30,6 +31,7 @@ const contactInfoSchema = z.object({
 
 export function ContactInfo({ session }: { session: Session }) {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof contactInfoSchema>>({
     //@ts-ignore
@@ -41,6 +43,7 @@ export function ContactInfo({ session }: { session: Session }) {
   });
 
   async function onSubmit(values: z.infer<typeof contactInfoSchema>) {
+    setLoading(true);
     await updateContactInfo(values.email, values.phone);
     toast({
       title: "Updated",
@@ -48,48 +51,49 @@ export function ContactInfo({ session }: { session: Session }) {
       variant: "default",
     });
     router.refresh();
+    setLoading(false);
   }
 
   return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Contact</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Email</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="phone"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone number</FormLabel>
-                    <FormControl>
-                      <Input {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button type="submit" size={"sm"}>
-                Save
-              </Button>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
+    <Card>
+      <CardHeader>
+        <CardTitle>Contact</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phone"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phone number</FormLabel>
+                  <FormControl>
+                    <Input {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button loading={loading} type="submit" size={"sm"}>
+              Save
+            </Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
   );
 }

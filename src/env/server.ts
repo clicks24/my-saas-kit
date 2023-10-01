@@ -8,7 +8,8 @@ type serverSchema = {
     UPLOADTHING_APP_ID: string,
     NEXTAUTH_URL: string,
     UPLOADTHING_URL: string,
-    NEXTAUTH_SECRET: string
+    NEXTAUTH_SECRET: string,
+    RESEND_DOMAIN: string
 }
 
 export const serverEnv = {
@@ -20,5 +21,6 @@ export const serverEnv = {
     UPLOADTHING_APP_ID: String(process.env.UPLOADTHING_APP_ID),
     NEXTAUTH_URL: String(process.env.NEXTAUTH_URL),
     UPLOADTHING_URL: String(process.env.UPLOADTHING_URL),
-    NEXTAUTH_SECRET: String(process.env.NEXTAUTH_SECRET)
+    NEXTAUTH_SECRET: String(process.env.NEXTAUTH_SECRET),
+    RESEND_DOMAIN: String(process.env.RESEND_DOMAIN)
 } satisfies serverSchema
