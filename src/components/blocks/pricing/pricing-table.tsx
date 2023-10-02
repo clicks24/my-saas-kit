@@ -61,7 +61,7 @@ export function PricingTable({
           <div
             key={index}
             className={cn(
-              "p-6 border dark:border-zinc-800 border-zinc-200 rounded-lg",
+              "p-6 border dark:border-zinc-800 border-zinc-200 rounded-lg light:bg-white dark:bg-black",
               {
                 "dark:border-emerald-600 border-emerald-400":
                   (currentPlans?.filter(
