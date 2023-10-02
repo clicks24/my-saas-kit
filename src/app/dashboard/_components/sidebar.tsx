@@ -37,11 +37,11 @@ export default function Sidebar({ session }: { session: Session }) {
 
   const pathname = usePathname();
   const mounted = useHasMounted();
-  
+
   const { theme, setTheme } = useTheme();
 
   return (
-    <div className="w-full sm:w-fit flex relative bg-black">
+    <div className="w-full sm:w-fit flex relative ">
       {mounted && (
         <Toggle
           className="fixed bottom-5 right-5"
