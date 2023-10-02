@@ -1,10 +1,10 @@
+import { AuthProvider } from "@/components/providers/auth-provider";
 import { Provider } from "@/components/providers/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import { AuthProvider } from "@/components/providers/auth-provider";
 
 export const metadata: Metadata = {
   title: "SaaS Kit",

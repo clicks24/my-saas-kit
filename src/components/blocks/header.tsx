@@ -62,7 +62,7 @@ export function Header() {
   return (
     <div className="flex flex-col">
       <div className="h-16 flex flex-col justify-center w-full">
-        <nav className="max-w-7xl m-auto px-4 w-full relative">
+        <nav className="px-10 w-full relative">
           <div className="flex items-center gap-8">
             <div className="rounded-lg">
               <Link href={"/"} className=" z-10">

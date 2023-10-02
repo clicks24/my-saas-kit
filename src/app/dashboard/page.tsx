@@ -51,17 +51,22 @@ export default async function Page() {
             </Link>
           </div>
           <div className="border-t dark:border-zinc-800 border-zinc-200 px-6 py-4">
-          <div className="flex justify-between items-center">
-            {subscriptions.length > 0 ? (
-              <p className="text-sm flex items-center gap-4">
-                <CreditCard size={18}/>You have the subscription: {subscriptions.at(0)?.plan.name}</p>
-            ) : (
-              <p className="text-sm flex items-center gap-4"><CreditCard size={18}/>You do not have a valid subscription </p>
-            )}
-            <Link href={"/dashboard/settings"}>
-              <Button size={"xs"}>Manage</Button>
-            </Link>
-          </div>
+            <div className="flex justify-between items-center">
+              {subscriptions.length > 0 ? (
+                <p className="text-sm flex items-center gap-4">
+                  <CreditCard size={18} />
+                  You have the subscription: {subscriptions.at(0)?.plan.name}
+                </p>
+              ) : (
+                <p className="text-sm flex items-center gap-4">
+                  <CreditCard size={18} />
+                  You do not have a valid subscription{" "}
+                </p>
+              )}
+              <Link href={"/dashboard/settings"}>
+                <Button size={"xs"}>Manage</Button>
+              </Link>
+            </div>
           </div>
         </div>
       </Card>

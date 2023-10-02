@@ -10,10 +10,13 @@ import {
   ChevronRightCircle,
   Code2,
   CreditCard,
+  Hourglass,
   Lock,
   Mail,
   Paintbrush,
+  Plus,
   Server,
+  Tag,
   Youtube,
   Zap,
 } from "lucide-react";
@@ -23,21 +26,12 @@ export default async function Home() {
   const plans = await getCompletedPlans();
 
   return (
-    <main>
+    <main className="dark:bg-space-dark">
       <Header />
       <Hero />
-      <div className={"relative z-10"}>
-        <div className="max-w-7xl z-10 border border-white/30 m-auto p-4 sm:p-8 bg-white/20 w-full rounded-3xl">
-          <img
-            src="/assets/billing.png"
-            className="rounded-xl bg-black p-4 z-10"
-          ></img>
-        </div>
-        <div className="top-20 bottom-20 w-full bg-gradient-conic from-rose-500 via-violet-400 to-amber-500 absolute z-[-1]" />
-      </div>
-      <Features />
       <TechStackHero />
-      <div className="py-20 px-4" id="pricing">
+      <Features />
+      <div className="py-20 px-4 bg-space-light" id="pricing">
         <PricingTable plans={plans} />
       </div>
       <SocialProofCTA />
@@ -48,37 +42,73 @@ export default async function Home() {
 
 function Features() {
   return (
-    <div className="max-w-4xl m-auto px-4 w-full py-20">
-      <div className="grid sm:grid-cols-2 gap-8   ">
+    <div className="max-w-5xl m-auto px-4 w-full py-28" id="features">
+      <div className="pb-20 flex flex-col items-center">
+        <div className="rounded-full px-4 py-1 border light:border-white/20 dark:border-space-light font-medium text-sm w-fit flex items-center gap-4">
+          <p>Save 100+ hours of development time</p>
+        </div>
+        <p className="sm:text-4xl text-center text-2xl py-6 font-medium">
+          Build, ship, and make money quicker
+        </p>
+        <p className="sm:text-lg max-w-[60ch] opacity-80 text-center">
+          Login, payments, emails, dashboard, user settings and more available
+          to you instantly. Build off our boilerplate and spend more time
+          building your startup.
+        </p>
+      </div>
+      <div className="grid sm:grid-cols-3 grid-cols-1 sm:gap-12 gap-14">
         <FeatureCard
-          icon={<Lock size={16} />}
-          feature="Authentication"
-          description="Use any OAuth provider supported by next-auth."
+          features={[
+            "Send transactional emails",
+            "Create custom emails using react-email",
+            "Powered using Resend",
+          ]}
+          icon={<Mail />}
+          title="Emails"
         />
         <FeatureCard
-          icon={<CreditCard size={16} />}
-          feature="Subscriptions"
-          description="Create monthly and yearly billing plans. Let users manage thier billing plan."
+          features={[
+            "Create custom pricing plans",
+            "Customer portal",
+            "Powered using Stripe",
+          ]}
+          icon={<CreditCard />}
+          title="Payments"
         />
         <FeatureCard
-          icon={<Paintbrush size={16} />}
-          feature="Fully customizable"
-          description="Fully customizable component library using Tailwind."
+          features={[
+            "Magic links setup",
+            "Login with Google, GitHub, Discord",
+            "User data stored in your DB",
+            "Secured pages and routes",
+          ]}
+          icon={<Lock />}
+          title="Authentication"
         />
         <FeatureCard
-          icon={<Mail size={16} />}
-          feature="Mail templates"
-          description="Create email templates using react-email."
+          features={[
+            "Pre-built component library",
+            "100% customizable",
+            "Built using ShadCN UI",
+            "Tailwind",
+          ]}
+          icon={<Paintbrush />}
+          title="Components"
         />
         <FeatureCard
-          icon={<Server size={16} />}
-          feature="Serverless architecture"
-          description="Deploy painlessly using Vercel or any serverless provider."
+          features={["MySQL, Mongo, Postgres", "Prisma ORM", "Schema included"]}
+          icon={<Server />}
+          title="Database"
         />
         <FeatureCard
-          icon={<Code2 size={16} />}
-          feature="Developer experience"
-          description="Easy to use, clean code, expertly crafted."
+          features={[
+            "Admin dashboard",
+            "Create and update pricing plans",
+            "Blog using markdown",
+            "File uploads",
+          ]}
+          icon={<Plus />}
+          title="Extras"
         />
       </div>
     </div>
@@ -87,7 +117,7 @@ function Features() {
 
 function TechStackHero() {
   return (
-    <div className="dark:bg-zinc-900/60 bg-gray-700 py-6">
+    <div className="bg-space-light py-6">
       <div className="max-w-6xl m-auto px-4">
         <div className="grid sm:grid-cols-4 grid-cols-2 gap-8">
           <div className="grid place-items-center">
@@ -99,7 +129,7 @@ function TechStackHero() {
           <div className="grid place-items-center">
             <img
               src="/stripe.png"
-              className="h-14  grayscale hover:grayscale-0 duration-150 opacity-60 hover:opacity-100 "
+              className="h-10  grayscale hover:grayscale-0 duration-150 opacity-60 hover:opacity-100 "
             />
           </div>
           <div className="grid place-items-center">
@@ -122,7 +152,7 @@ function TechStackHero() {
 
 function SocialProofCTA() {
   return (
-    <div className="flex flex-col w-full items-center py-28 dark:bg-zinc-900/60 bg-zinc-50">
+    <div className="flex flex-col w-full items-center py-28">
       <div className="flex flex-col items-center px-4">
         <h1 className="text-2xl sm:text-4xl  text-center font-medium pb-4">
           Join 100+ developers already shipping
@@ -161,16 +191,23 @@ function SocialProofCTA() {
 
 function Hero() {
   return (
-    <div className="max-w-7xl m-auto px-4 min-h-[70vh] grid items-center ">
-      <div className="flex flex-col items-center">
-        <h1 className="text-center font-medium bg-gradient-to-r max-w-4xl dark:from-white dark:to-zinc-300 from-black to-zinc-700 bg-clip-text text-transparent text-4xl sm:text-5xl sm:leading-none lg:text-6xl">
+    <div className="grid grid-cols-2 items-center min-h-[calc(100vh-4rem)] max-w-[2000px] m-auto">
+      <div className="flex flex-col px-10">
+        <Link
+          href="#"
+          className="rounded-full px-4 py-1 border light:border-white/20 dark:border-space-light font-medium text-sm w-fit flex items-center gap-4"
+        >
+          <p>Checkout our updated pricing</p>
+          <ArrowRight size={18} />
+        </Link>
+        <h1 className="py-8 font-normal bg-gradient-to-r max-w-4xl dark:from-white dark:to-zinc-300 from-black to-zinc-700 bg-clip-text text-transparent text-4xl sm:text-5xl sm:leading-none lg:text-6xl">
           Build this weekend.
           <br />
           <span className="bg-gradient-to-r from-violet-500 via-rose-500 to-amber-500 bg-clip-text text-transparent">
             Ship on monday.
           </span>
         </h1>
-        <p className="text-center py-6 text-sm sm:text-base lg:text-lg text-muted max-w-[60ch] opacity-80">
+        <p className="pb-8 text-sm sm:text-base lg:text-lg max-w-[60ch] opacity-80">
           The best NextJS kit for starting and scaling your software business.
         </p>
         <div className="flex items-center gap-4">
@@ -186,6 +223,11 @@ function Hero() {
               Video Walkthrough
             </Button>
           </Link>
+        </div>
+      </div>
+      <div className="pl-8 pt-8 bg-space-light rounded-l-2xl">
+        <div className=" pl-4 pt-4 bg-black rounded-tl-xl ">
+          <img className="" src="/assets/dashboard.png" />
         </div>
       </div>
     </div>

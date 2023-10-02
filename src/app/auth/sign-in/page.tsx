@@ -31,16 +31,12 @@ export default function Page() {
           <p>{"There was an error sending your sign in link"}</p>
         </Alert>
       )}
-      <GradientBorder className="rounded-full w-fit dark:bg-black bg-white">
-        <div className="w-10 h-10 shrink-0 grid place-items-center">
-          <Lock size={18} />
-        </div>
-      </GradientBorder>
+      <div className="shrink-0">
+        <Lock size={18} />
+      </div>
 
       <div className="flex flex-col py-8">
-        <p className="dark:text-white text-black text-lg font-medium">
-          Welcome
-        </p>
+        <p className="text-lg font-medium ">Welcome</p>
         <p className="text-zinc-400">{"Please sign in or sign up below."}</p>
       </div>
       <div className="flex flex-col">
@@ -48,6 +44,7 @@ export default function Page() {
           <p className="text-sm text-zinc-400 pb-2">Email</p>
           <Input
             value={email}
+            className="light"
             onChange={(e) => setEmail(e.target.value)}
             placeholder="martin.shrekli@turing.com"
           />

@@ -3,7 +3,7 @@ import { GradientBorder } from "./gradient-border";
 
 export function Review({ review, by }: { review: string; by: string }) {
   return (
-    <div className="rounded-md dark:border-zinc-800 border-zinc-200 border">
+    <div className="rounded-md dark:border-space-light border-space-light border">
       <div className="flex flex-col">
         <div className="flex flex-row justify-between items-center px-4 py-4">
           <p className="text-sm font-medium">{by}</p>

@@ -16,6 +16,12 @@ module.exports = {
             },
         },
         extend: {
+            colors: {
+                "space": {
+                    "light": "#865DFF",
+                    "dark": "#03001C"
+                }
+            },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
                 'gradient-conic':
@@ -23,12 +29,12 @@ module.exports = {
             },
             keyframes: {
                 "accordion-down": {
-                    from: {height: 0},
-                    to: {height: "var(--radix-accordion-content-height)"},
+                    from: { height: 0 },
+                    to: { height: "var(--radix-accordion-content-height)" },
                 },
                 "accordion-up": {
-                    from: {height: "var(--radix-accordion-content-height)"},
-                    to: {height: 0},
+                    from: { height: "var(--radix-accordion-content-height)" },
+                    to: { height: 0 },
                 },
             },
             animation: {
