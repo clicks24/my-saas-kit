@@ -191,7 +191,7 @@ function SocialProofCTA() {
 
 function Hero() {
   return (
-    <div className="grid grid-cols-2 items-center min-h-[calc(100vh-4rem)] max-w-[2000px] m-auto">
+    <div className="grid sm:grid-cols-2 items-center min-h-[calc(100vh-4rem)] max-w-[2000px] m-auto">
       <div className="flex flex-col px-10">
         <Link
           href="#"
