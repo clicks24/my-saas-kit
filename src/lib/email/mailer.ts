@@ -7,7 +7,7 @@ export const resendDomain = serverEnv.RESEND_DOMAIN;
 
 export async function sendMagicLinkEmail(to: string, signInLink: string) {
     const data = await resend.emails.send({
-        from: 'onboarding@saasplanet.app',
+        from: 'onboarding@' + resendDomain,
         to: [to],
         subject: "Magic sign-in link",
         react: MagicLinkEmail({ signInLink: signInLink, sentTo: to }),
