@@ -19,11 +19,17 @@ export default async function Page() {
   }
 
   return (
-    <main>
-      <h1 className="font-display text-2xl mb-4 pb-4 dark:border-zinc-800 border-zinc-200 border-b">
-        Admin
-      </h1>
+    <main className="flex flex-col gap-8">
+      <p className="text-2xl font-semibold tracking-tight">Admin</p>
       <OverviewPage />
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-semibold tracking-tight">Users</p>
+        <UsersPage />
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-semibold tracking-tight">Plans</p>
+        <PlansPage />
+      </div>
     </main>
   );
 }

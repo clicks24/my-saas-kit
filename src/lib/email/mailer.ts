@@ -1,5 +1,5 @@
 import { Resend } from 'resend';
-import MagicLinkEmail from './templates/magic-link';
+import { MagicLinkEmail } from './templates/magic-link';
 import { serverEnv } from '@/env/server';
 
 export const resend = new Resend(serverEnv.RESEND_SECRET);

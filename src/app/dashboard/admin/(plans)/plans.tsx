@@ -33,23 +33,22 @@ export async function PlansPage({}) {
 
   return (
     <main>
-        <Dialog >
-          <DialogTrigger asChild>
-            <Button variant="outline" size={"sm"} className="mb-4">
-              Create
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Create plan</DialogTitle>
-              <DialogDescription>
-                Add a new plan available to your users.
-              </DialogDescription>
-            </DialogHeader>
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline" className="mb-4">
+            Create
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Create plan</DialogTitle>
+          </DialogHeader>
+          <div className="px-4 pb-4">
             <CreateProductForm />
-          </DialogContent>
-        </Dialog>
-      <div className="rounded-md border dark:border-zinc-800 border-zinc-200">
+          </div>
+        </DialogContent>
+      </Dialog>
+      <div>
         <Table>
           <TableHeader>
             <TableRow>
@@ -67,18 +66,15 @@ export async function PlansPage({}) {
                   <div className="flex flex-row items-center gap-2">
                     <Dialog>
                       <DialogTrigger asChild>
-                        <Button variant="outline" size={"xs"}>
-                          Edit
-                        </Button>
+                        <Button variant="outline">Edit</Button>
                       </DialogTrigger>
                       <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                           <DialogTitle>Edit plan</DialogTitle>
-                          <DialogDescription>
-                            Edit an existing plan
-                          </DialogDescription>
                         </DialogHeader>
-                        <EditProductForm plan={plan} />
+                        <div className="px-4 pb-4">
+                          <EditProductForm plan={plan} />
+                        </div>
                       </DialogContent>
                     </Dialog>
                     <DeleteForm id={plan.id} />

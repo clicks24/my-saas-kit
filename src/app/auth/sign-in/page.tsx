@@ -4,6 +4,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { GradientBorder } from "@/components/ui/gradient-border";
 import { Input } from "@/components/ui/input";
+import { Heading } from "@/components/ui/typography";
 import { AlertTriangle, Lock } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
@@ -31,32 +32,30 @@ export default function Page() {
           <p>{"There was an error sending your sign in link"}</p>
         </Alert>
       )}
-      <div className="shrink-0">
-        <Lock size={18} />
-      </div>
-
-      <div className="flex flex-col py-8">
-        <p className="text-lg font-medium ">Welcome</p>
-        <p className="text-zinc-400">{"Please sign in or sign up below."}</p>
+      <div className="flex flex-col pb-8">
+        <Heading className="text-xl">Welcome</Heading>
+        <p className="text-muted tracking-tight">
+          {"Please sign in or sign up below."}
+        </p>
       </div>
       <div className="flex flex-col">
         <div className="flex flex-col pb-4">
-          <p className="text-sm text-zinc-400 pb-2">Email</p>
+          <p className="text-sm text-muted pb-2">Email</p>
           <Input
             value={email}
-            className="light"
+            variant={"lg"}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="martin.shrekli@turing.com"
           />
         </div>
         <Button
+          size={"lg"}
           loading={loading}
-          onClick={() => {
+          onClick={async () => {
             setLoading(true);
-            signIn("email", { email: email, callbackUrl: "/dashboard" });
+            await signIn("email", { email: email, callbackUrl: "/dashboard" });
             setLoading(false);
           }}
-          className="rounded-md"
         >
           Continue with Email
         </Button>

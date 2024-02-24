@@ -24,9 +24,7 @@ export function PlanSelector({
   return (
     <div className="flex flex-col m-auto w-full ">
       <div className="flex flex-col pb-8">
-        <p className="dark:text-white text-center text-black text-lg font-medium">
-          Choose Plan
-        </p>
+        <p className="text-left text-lg font-medium">Choose Plan</p>
       </div>
       <div className="grid gap-4 grid-cols-1">
         <div

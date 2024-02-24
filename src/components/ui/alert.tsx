@@ -4,15 +4,15 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const alertVariants = cva(
-  "relative w-full rounded-lg p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-zinc-950 dark:border-zinc-800 dark:[&>svg]:text-zinc-50",
+  "relative w-full rounded-lg p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-zinc-950 ",
   {
     variants: {
       variant: {
-        default: "bg-white text-zinc-950 dark:bg-zinc-950 dark:text-zinc-50",
+        default: "bg-surface text-primary",
         destructive:
-          "border-red/50 dark:bg-rose-400/10 bg-rose-400/10 text-rose-500 dark:border-rose-500 [&>svg]:text-rose-500 dark:border-rose-900/50 dark:text-rose-600 dark:dark:border-rose-900 dark:[&>svg]:text-rose-600",
+        "bg-surface text-primary ring-2 ring-critical/30",
         success:
-          "dark:bg-emerald-400/10 bg-emerald-400/10 text-black [&>svg]:text-emerald-100  dark:text-white dark:[&>svg]:text-emerald-900",
+        "bg-surface text-primary ring-2 ring-emerald-500/30",
       },
     },
     defaultVariants: {

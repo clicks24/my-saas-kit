@@ -131,7 +131,7 @@ export function PersonalInfo({ session }: { session: Session }) {
                   </FormItem>
                 )}
               />
-              <Button loading={loading} type="submit" size={"sm"}>
+              <Button loading={loading} type="submit" variant={"outline"}>
                 Save
               </Button>
             </form>

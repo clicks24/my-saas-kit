@@ -1,6 +1,5 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-    darkMode: ["class"],
     content: [
         './pages/**/*.{ts,tsx}',
         './components/**/*.{ts,tsx}',
@@ -17,10 +16,15 @@ module.exports = {
         },
         extend: {
             colors: {
-                "space": {
-                    "light": "#865DFF",
-                    "dark": "#03001C"
-                }
+                "brand": "#209de4",
+                "primary": "#1a1a1a",
+                "container": "#fafafa",
+                "surface": "#ffffff",
+                "border": "#ececec",
+                "focus": "#209de4",
+                "muted": "#7a7c7f",
+                "disabled": "#5c5c5c",
+                "critical": "#DF1B41",
             },
             backgroundImage: {
                 'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

@@ -1,0 +1,51 @@
+<svg width="1400" height="700" viewBox="0 0 1400 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+<mask id="path-1-inside-1_331_17" fill="white">
+<path d="M0 576H124V700H0V576Z"/>
+</mask>
+<path d="M124 576H125V575H124V576ZM0 577H124V575H0V577ZM123 576V700H125V576H123Z" fill="#ececec" mask="url(#path-1-inside-1_331_17)"/>
+<mask id="path-3-inside-2_331_17" fill="white">
+<path d="M1152 452H1276V576H1152V452Z"/>
+</mask>
+<path d="M1152 452V451H1151V452H1152ZM1152 453H1276V451H1152V453ZM1153 576V452H1151V576H1153Z" fill="#ececec" mask="url(#path-3-inside-2_331_17)"/>
+<mask id="path-5-inside-3_331_17" fill="white">
+<path d="M1276 452H1400V576H1276V452Z"/>
+</mask>
+<path d="M1276 452V451H1275V452H1276ZM1276 453H1400V451H1276V453ZM1277 576V452H1275V576H1277Z" fill="#ececec" mask="url(#path-5-inside-3_331_17)"/>
+<mask id="path-7-inside-4_331_17" fill="white">
+<path d="M1276 576H1400V700H1276V576Z"/>
+</mask>
+<path d="M1276 576V575H1275V576H1276ZM1276 577H1400V575H1276V577ZM1277 700V576H1275V700H1277Z" fill="#ececec" mask="url(#path-7-inside-4_331_17)"/>
+<mask id="path-9-inside-5_331_17" fill="white">
+<path d="M1028 576H1152V700H1028V576Z"/>
+</mask>
+<path d="M1028 576V575H1027V576H1028ZM1028 577H1152V575H1028V577ZM1029 700V576H1027V700H1029Z" fill="#ececec" mask="url(#path-9-inside-5_331_17)"/>
+<mask id="path-11-inside-6_331_17" fill="white">
+<path d="M1152 576H1276V700H1152V576Z"/>
+</mask>
+<path d="M1152 576V575H1151V576H1152ZM1152 577H1276V575H1152V577ZM1153 700V576H1151V700H1153Z" fill="#ececec" mask="url(#path-11-inside-6_331_17)"/>
+<mask id="path-13-inside-7_331_17" fill="white">
+<path d="M1276 328H1400V452H1276V328Z"/>
+</mask>
+<path d="M1276 328V327H1275V328H1276ZM1276 329H1400V327H1276V329ZM1277 452V328H1275V452H1277Z" fill="#ececec" mask="url(#path-13-inside-7_331_17)"/>
+<mask id="path-15-inside-8_331_17" fill="white">
+<path d="M124 452H248V576H124V452Z"/>
+</mask>
+<path d="M248 452H249V451H248V452ZM124 453H248V451H124V453ZM247 452V576H249V452H247Z" fill="#ececec" mask="url(#path-15-inside-8_331_17)"/>
+<mask id="path-17-inside-9_331_17" fill="white">
+<path d="M248 576H372V700H248V576Z"/>
+</mask>
+<path d="M372 576H373V575H372V576ZM248 577H372V575H248V577ZM371 576V700H373V576H371Z" fill="#ececec" mask="url(#path-17-inside-9_331_17)"/>
+<mask id="path-19-inside-10_331_17" fill="white">
+<path d="M124 576H248V700H124V576Z"/>
+</mask>
+<path d="M248 576H249V575H248V576ZM124 577H248V575H124V577ZM247 576V700H249V576H247Z" fill="#ececec" mask="url(#path-19-inside-10_331_17)"/>
+<mask id="path-21-inside-11_331_17" fill="white">
+<path d="M0 328H124V452H0V328Z"/>
+</mask>
+<path d="M124 328H125V327H124V328ZM0 329H124V327H0V329ZM123 328V452H125V328H123Z" fill="#ececec" mask="url(#path-21-inside-11_331_17)"/>
+<mask id="path-23-inside-12_331_17" fill="white">
+<path d="M0 452H124V576H0V452Z"/>
+</mask>
+<path d="M124 452H125V451H124V452ZM0 453H124V451H0V453ZM123 452V576H125V452H123Z" fill="#ececec" mask="url(#path-23-inside-12_331_17)"/>
+<line y1="699.5" x2="1400" y2="699.5" stroke="#ececec"/>
+</svg>

@@ -1,32 +1,27 @@
 import * as React from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva, type VariantProps } from "class-variance-authority";
-
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 dark:ring-offset-zinc-950 dark:focus-visible:ring-zinc-300",
+  "inline-flex items-center tracking-tight shadow-sm active:scale-[.98] active:opacity-90 relative transition-all justify-center ease-in-out gap-2 duration-150 rounded-md text-sm font-medium hover:shadow ring-offset-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-950 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 ",
   {
     variants: {
       variant: {
-        default:
-          "bg-zinc-900 text-zinc-50 hover:bg-zinc-900/90 dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-50/90",
-        destructive:
-          "bg-red-500 text-zinc-50 hover:bg-red-500/90 dark:bg-red-900 dark:text-zinc-50 dark:hover:bg-red-900/90",
+        default: "bg-primary text-white",
+        cta: "bg-brand text-white ring-2",
+        secondary: "bg-container text-primary border-container border ",
+        destructive: "bg-critical text-white hover:bg-critical/90",
         outline:
-          "border border-zinc-200 bg-white hover:bg-zinc-100 hover:text-zinc-900 dark:border-zinc-800 dark:bg-zinc-950 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
-        secondary:
-          "bg-zinc-100 text-zinc-900 hover:bg-zinc-100/80 dark:bg-zinc-800 dark:text-zinc-50 dark:hover:bg-zinc-800/80",
-        ghost:
-          "hover:bg-zinc-100 dark:bg-white/20 hover:text-zinc-900 dark:hover:bg-zinc-800 dark:hover:text-zinc-50",
-        link: "text-zinc-900 underline-offset-4 hover:underline dark:text-zinc-50",
+          "border border-border bg-surface text-primary hover:bg-container",
+        ghost: "text-primary hover:bg-container shadow-none hover:shadow-none ",
+        link: "text-primary shadow-none hover:shadow-none",
       },
       size: {
-        default: "h-10 px-4 py-2",
-        xs: "h-8 rounded-md px-2 text-xs",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-6",
-        icon: "h-10 w-10",
+        default: "h-8 px-3",
+        sm: "h-7 px-2 text-xs",
+        lg: "h-10 px-4 text-base",
+        icon: "w-8 h-8",
       },
     },
     defaultVariants: {
@@ -47,24 +42,33 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, loading, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
-      <>
-        {loading ? (
-          <Comp
-            disabled
-            className={cn(buttonVariants({ variant, size, className }))}
-            ref={ref}
-            {...props}
-          >
-            Loading
-          </Comp>
-        ) : (
-          <Comp
-            className={cn(buttonVariants({ variant, size, className }))}
-            ref={ref}
-            {...props}
-          />
+      <Comp
+        className={cn(buttonVariants({ variant, size, className }), {
+          "opacity-50": loading,
+        })}
+        ref={ref}
+        {...props}
+      >
+        {props.children}
+        {loading && (
+          <div className="absolute grid place-items-center w-full h-full text-primary rounded-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              className="animate-spin"
+            >
+              <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+            </svg>
+          </div>
         )}
-      </>
+      </Comp>
     );
   }
 );

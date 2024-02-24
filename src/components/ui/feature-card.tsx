@@ -12,7 +12,7 @@ export function FeatureCard({
 }) {
   return (
     <div className="flex flex-col">
-    <div className="opacity-80">{icon}</div>
+    <div className="w-8 h-8 grid place-items-center ring-2 rounded bg-focus text-white">{icon}</div>
     <p className="font-medium text-lg py-4">{title}</p>
     <div className="flex flex-col gap-2">
       {features.map((item, index) => (
@@ -20,7 +20,7 @@ export function FeatureCard({
           className="text-sm flex items-center gap-2"
           key={index}
         >
-          <Check className="opacity-80 font-semibold" size={16} />
+          <Check className="text-muted font-semibold" size={16} />
           <p>{item}</p>
         </div>
       ))}

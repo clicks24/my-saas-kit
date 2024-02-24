@@ -26,8 +26,16 @@ const priceRegex = /price_/;
 export const productSchema = z.object({
   name: z.string().min(2).max(64),
   description: z.string().min(2).max(255),
-  monthly_price: z.string().min(2).max(64).regex(priceRegex, "The price ID must begin with price_"),
-  yearly_price: z.string().min(2).max(64).regex(priceRegex, "The price ID must begin with price_"),
+  monthly_price: z
+    .string()
+    .min(2)
+    .max(64)
+    .regex(priceRegex, "The price ID must begin with price_"),
+  yearly_price: z
+    .string()
+    .min(2)
+    .max(64)
+    .regex(priceRegex, "The price ID must begin with price_"),
   features: z.string().min(2),
 });
 
@@ -87,9 +95,7 @@ export function CreateProductForm() {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  The ID of the monthly price ID created in stripe.
-                </FormDescription>
+                <FormDescription>Stripe Price ID</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -103,9 +109,7 @@ export function CreateProductForm() {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  The ID of the yearly price ID created in stripe.
-                </FormDescription>
+                <FormDescription>Stripe Price ID</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -196,9 +200,7 @@ export function EditProductForm({ plan }: { plan: Plan }) {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  The ID of the monthly price ID created in stripe.
-                </FormDescription>
+                <FormDescription>Stripe Price ID</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -212,9 +214,7 @@ export function EditProductForm({ plan }: { plan: Plan }) {
                 <FormControl>
                   <Input {...field} />
                 </FormControl>
-                <FormDescription>
-                  The ID of the yearly price ID created in stripe.
-                </FormDescription>
+                <FormDescription>Stripe Price ID</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
@@ -244,7 +244,7 @@ export function EditProductForm({ plan }: { plan: Plan }) {
 
 export function DeleteForm({ id }: { id: string }) {
   return (
-    <Button onClick={() => deletePlan(id)} variant="destructive" size={"xs"}>
+    <Button onClick={() => deletePlan(id)} variant="destructive">
       Delete
     </Button>
   );

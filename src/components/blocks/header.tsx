@@ -1,173 +1,70 @@
 "use client";
 
-import useHasMounted from "@/lib/hooks/use-has-mounted";
-import { motion } from "framer-motion";
-import { ArrowRight, ChevronRightCircle, Menu, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import { Button } from "../ui/button";
-import { Toggle } from "../ui/toggle";
+import { cn } from "@/lib/utils";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { ArrowRight, SearchIcon, Stars } from "lucide-react";
+import { Button } from "../ui/button";
 
-type Tab = {
-  id: number;
-  label: string;
-  href: string;
-  matcher: (currentPathname: string) => boolean;
-};
-
-//Define your header links
-let tabs = [
-  {
-    id: 0,
-    label: "Home",
-    href: "/",
-    matcher: (currentPathanme: string) => {
-      return currentPathanme == "/";
-    },
-  },
-  {
-    id: 2,
-    label: "Pricing",
-    href: "/#pricing",
-    matcher: function (currentPathanme: string): boolean {
-      return false;
-    },
-  },
-  {
-    id: 3,
-    label: "Blog",
-    href: "/blog",
-    matcher: function (currentPathanme: string): boolean {
-      return currentPathanme.includes("/blog");
-    },
-  },
-] as Tab[];
-
-export function Header() {
-  const [menu, setMenu] = useState(false);
-  const mounted = useHasMounted();
+export function Header({ darkMode }: { darkMode?: boolean }) {
   const session = useSession();
-  let [activeTab, setActiveTab] = useState(tabs[0].id);
-  const pathname = usePathname();
-  const { systemTheme, theme, setTheme } = useTheme();
-
-  function toggleMenu() {
-    setMenu(!menu);
-    console.log("mobile nav menu", menu);
-  }
 
   return (
-    <div className="flex flex-col">
-      <div className="h-16 flex flex-col justify-center w-full">
-        <nav className="px-10 w-full relative">
-          <div className="flex items-center gap-8">
-            <div className="rounded-lg">
-              <Link href={"/"} className=" z-10">
-                <img src="/logo.svg" className="w-10 h-10 rounded-full" />
-              </Link>
-            </div>
-
-            <div className="sm:flex items-center gap-4 hidden ">
-              {tabs.map((tab) => (
-                <Link
-                  key={tab.id}
-                  href={tab.href}
-                  className={`${
-                    tab.matcher("" + pathname) ? "" : "dark:hover:text-white/60"
-                  } relative px-3 py-1.5 text-sm font-medium outline-sky-400 transition focus-visible:outline-2`}
-                  style={{
-                    WebkitTapHighlightColor: "transparent",
-                  }}
-                >
-                  {tab.matcher("" + pathname) && (
-                    <motion.span
-                      layoutId="bubble"
-                      className="absolute inset-0 z-10 dark:bg-white/20 mix-blend-difference "
-                      style={{ borderRadius: 9999 }}
-                      transition={{
-                        type: "spring",
-                        bounce: 0.2,
-                        duration: 0.6,
-                      }}
-                    />
-                  )}
-                  {tab.label}
-                </Link>
-              ))}
-            </div>
-            <div className="flex items-center gap-4 ml-auto relative">
-              {mounted && (
-                <Toggle
-                  onClick={() =>
-                    theme == "dark" ? setTheme("light") : setTheme("dark")
-                  }
-                >
-                  {theme == "light" ? <Sun size={16} /> : <Moon size={16} />}
-                </Toggle>
-              )}
-
-              {session.status == "authenticated" ? (
-                <Link href={"/auth"}>
-                  <Button className="gap-2" variant="ghost">
-                    Dashboard
-                    <ArrowRight size={16} />
-                  </Button>
-                </Link>
-              ) : (
-                <Link href={"/auth"}>
-                  <Button className="gap-2" variant="ghost">
-                    Get started
-                    <ArrowRight size={16} />
-                  </Button>
-                </Link>
-              )}
-
-              <button
-                className=" sm:hidden flex z-[100]"
-                onClick={() => toggleMenu()}
-              >
-                <Menu size={32} className="shrink-0" />
-              </button>
-            </div>
+    <div className="flex flex-col w-full">
+      <div className="w-full top-0 h-16 fixed grid items-center z-[100] bg-surface border-b border-border">
+        <div className="flex items-center justify-between max-w-7xl mx-auto w-full relative px-4">
+          <div className="flex items-center gap-4 ">
+            <Link href={"/"} className="flex items-center gap-1 text-primary">
+              <img src="/logo.svg" className="h-10" />
+            </Link>
           </div>
-        </nav>
-      </div>
-      {menu && (
-        <div className="absolute dark:bg-black border  dark:border-zinc-900 border-zinc-300 rounded-md z-[1000] top-20 right-5">
-          <div className="flex flex-col gap-2 p-4">
-            {tabs.map((tab) => (
+          <div className="sm:flex hidden items-center gap-4">
+            <Link href={"/#pricing"}>
+              <Button variant="ghost" className={""}>
+                Pricing
+              </Button>
+            </Link>
+            <Link href={"/#features"}>
+              <Button variant="ghost" className={""}>
+                Features
+              </Button>
+            </Link>
+            <Link href={"/design"}>
+              <Button variant="ghost" className={""}>
+                Design
+              </Button>
+            </Link>
+            <Link href={"/blog"}>
+              <Button variant="ghost" className={""}>
+                Blog
+              </Button>
+            </Link>
+            {session.status == "authenticated" ? (
               <Link
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                href={tab.href}
-                className={`${
-                  pathname === tab.href ? "" : "dark:hover:text-white/60"
-                } relative px-3 py-1.5 text-sm font-medium outline-sky-400 transition focus-visible:outline-2`}
-                style={{
-                  WebkitTapHighlightColor: "transparent",
-                }}
+                href={"/dashboard"}
+                className=" bg-container rounded-full flex items-center gap-2"
               >
-                {pathname === tab.href && (
-                  <motion.span
-                    layoutId="bubble"
-                    className="absolute inset-0 z-10 dark:bg-white/20 bg-black/10 mix-blend-difference "
-                    style={{ borderRadius: 9999 }}
-                    transition={{
-                      type: "spring",
-                      bounce: 0.2,
-                      duration: 0.6,
-                    }}
-                  />
-                )}
-                {tab.label}
+                <div
+                  className="w-8 h-8 grid bg-cover place-items-center  bg-accent text-white rounded-full border-border border"
+                  style={{
+                    backgroundImage: `url(${session.data.user.image})`,
+                  }}
+                ></div>
               </Link>
-            ))}
+            ) : (
+              <Link href={"/auth/sign-in"}>
+                <Button
+                  className={cn({ "text-white": darkMode })}
+                  variant="cta"
+                >
+                  Get started
+                </Button>
+              </Link>
+            )}
           </div>
         </div>
-      )}
+      </div>
+      <div className="h-16 w-full" />
     </div>
   );
 }

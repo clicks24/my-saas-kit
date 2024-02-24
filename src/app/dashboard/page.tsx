@@ -1,3 +1,4 @@
+import { BarChart } from "@/components/ui/bar-chart";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -7,8 +8,10 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { GradientBorder } from "@/components/ui/gradient-border";
+import { Heading } from "@/components/ui/typography";
 import { authOptions } from "@/lib/auth/options";
 import { getSubscriptions } from "@/lib/billing";
+import { randomInt } from "crypto";
 import { CreditCard } from "lucide-react";
 import { getServerSession } from "next-auth";
 import Link from "next/link";
@@ -19,83 +22,74 @@ export default async function Page() {
     String(session?.user.stripe_customer_id)
   );
 
+  function generatePastDaysList(
+    numDays: number
+  ): { date: number; value: number }[] {
+    const now = new Date().getTime();
+    const dayInMilliseconds = 24 * 60 * 60 * 1000;
+    const pastDaysList = [];
+
+    for (let i = 1; i <= numDays; i++) {
+      const pastDate = new Date(now - i * dayInMilliseconds);
+      const formattedObject = {
+        date: pastDate.getTime(),
+        value: i * 2 + randomInt(600),
+      };
+      pastDaysList.push(formattedObject);
+    }
+
+    return pastDaysList;
+  }
+
+  const data = generatePastDaysList(14).reverse();
+  const data1 = generatePastDaysList(14).reverse();
+  const data2 = generatePastDaysList(14).reverse();
+
   return (
-    <main>
-      <h1 className="font-display text-2xl pb-6">Dashboard</h1>
-      <Card className="mb-8">
-        <div className="flex flex-col">
-          <div className="flex flex-row w-full justify-between items-center px-6">
-            <div className="flex items-center gap-6 py-6">
-              {(session?.user?.image?.length ?? 0) > 0 ? (
-                <img
-                  src={"" + session?.user.image}
-                  className="w-16 h-16 rounded-full"
-                />
-              ) : (
-                <GradientBorder className="rounded-full w-fit">
-                  <div className="w-16 h-16 shrink-0 grid place-items-center">
-                    <p className="font-medium">
-                      {session?.user?.email?.substring(0, 1)}
-                    </p>
-                  </div>
-                </GradientBorder>
-              )}
-              <div className="flex flex-col">
-                <p className="text-sm opacity-80">Welcome back,</p>
-                <p className="text-2xl font-semibold">{session?.user.name}</p>
-                <p className="text-sm opacity-80">{session?.user.email}</p>
-              </div>
-            </div>
-            <Link href={"/dashboard/settings"}>
-              <Button size={"sm"}>Settings</Button>
-            </Link>
-          </div>
-          <div className="border-t dark:border-zinc-800 border-zinc-200 px-6 py-4">
-            <div className="flex justify-between items-center">
-              {subscriptions.length > 0 ? (
-                <p className="text-sm flex items-center gap-4">
-                  <CreditCard size={18} />
-                  You have the subscription: {subscriptions.at(0)?.plan.name}
-                </p>
-              ) : (
-                <p className="text-sm flex items-center gap-4">
-                  <CreditCard size={18} />
-                  You do not have a valid subscription{" "}
-                </p>
-              )}
-              <Link href={"/dashboard/settings"}>
-                <Button size={"xs"}>Manage</Button>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </Card>
-      <div className="grid sm:grid-cols-2 gap-8 items-start">
+    <main className="flex flex-col gap-8">
+      <Heading className="text-2xl font-semibold">Dashboard</Heading>
+      <div className="grid md:grid-cols-3 gap-12">
+        <BarChart
+          data={data}
+          tooltip="This is fake data for display purposes only."
+          name="Avg. order value"
+        />
+        <BarChart
+          data={data1}
+          tooltip="This is fake data for display purposes only."
+          name="Gross revenue"
+        />
+        <BarChart
+          data={data2}
+          tooltip="This is fake data for display purposes only."
+          name="Profit"
+        />
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-x-8 gap-y-4 items-start">
         <Card>
           <CardHeader>
             <CardTitle>Settings</CardTitle>
-            <CardDescription>
+            <CardDescription className="flex flex-col gap-4">
               View and manage your account and billing settings.
+              <Link href={"/dashboard/settings"}>
+              <Button>View settings</Button>
+            </Link>
             </CardDescription>
           </CardHeader>
-          <CardFooter>
-            <Link href={"/dashboard/settings"}>
-              <Button size={"sm"}>View settings</Button>
-            </Link>
-          </CardFooter>
+     
         </Card>
         <Card>
           <CardHeader>
             <CardTitle>Discord</CardTitle>
-            <CardDescription>
+            <CardDescription className="flex flex-col gap-4">
               Join our community of developers on discord.
+              <Link href={"https://discord.gg/sAcvuQACYQ"}>
+              <Button>Join the discord</Button>
+            </Link>
             </CardDescription>
           </CardHeader>
-          <CardFooter>
-            <Link href={"https://discord.gg/sAcvuQACYQ"}>
-              <Button size={"sm"}>Join the discord</Button>
-            </Link>
-          </CardFooter>
+         
         </Card>
       </div>
     </main>

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Heading } from "@/components/ui/typography";
 import { CompletedPlan } from "@/lib/billing";
 import { cn } from "@/lib/utils";
 import { AlertTriangle, Check } from "lucide-react";
@@ -56,19 +57,15 @@ export function PricingTable({
           </div>
         </div>
       )}
-      <div className={cn("grid gap-8", "sm:grid-cols-3")}>
+      <div className={cn("grid gap-8 grid-cols-2")}>
         {plans.map((item, index) => (
           <div
             key={index}
-            className={cn(
-              "p-6 border dark:border-zinc-800 border-zinc-200 rounded-lg bg-white dark:bg-black",
-              {
-                "dark:border-emerald-600 border-emerald-400":
-                  (currentPlans?.filter(
-                    (item2) => item2.plan.id == item.plan.id
-                  ).length ?? 0) > 0,
-              }
-            )}
+            className={cn("p-6 border border-border rounded-lg  ", {
+              "dark:border-emerald-600 border-emerald-400":
+                (currentPlans?.filter((item2) => item2.plan.id == item.plan.id)
+                  .length ?? 0) > 0,
+            })}
           >
             <div className="flex flex-col items-center">
               <div className="flex items-center gap-2">
@@ -79,22 +76,22 @@ export function PricingTable({
                 )}
               </div>
               <div className="flex items-center py-8">
-                <p className="text-4xl">
+                <Heading className="text-4xl">
                   $
                   {yearly
                     ? (item.stripe_price_yearly.unit_amount ?? 0) / 100
                     : (item.stripe_price_monthly.unit_amount ?? 0) / 100}
-                </p>
+                </Heading>
                 <p className="text-4xl">{yearly ? "/year" : "/mo"}</p>
               </div>
-              <p className="text-sm opacity-80 py-4 w-full text-center border-y dark:border-zinc-800 border-zinc-200">
+              <p className="text-sm text-muted py-4 w-full text-center border-y border-border">
                 {item.plan.description}
               </p>
-              <div className="flex flex-col py-6 items-start w-full gap-6">
+              <div className="flex flex-col py-6 items-start w-full gap-4">
                 {item.plan.features.split(",").map((feat, index) => (
                   <div key={index} className="flex items-center gap-2">
-                    <div className="w-4 h-4 bg-emerald-600 dark:text-black text-white rounded-full grid place-items-center">
-                      <Check size={14} />
+                    <div className="w-4 h-4 bg-emerald-500 text-white rounded-full grid place-items-center">
+                      <Check size={12} />
                     </div>
                     <p className="text-sm">{feat}</p>
                   </div>
@@ -116,13 +113,19 @@ export function PricingTable({
                           //@ts-ignore
                           item.stripe_price_monthly.unit_amount ? (
                             <Link href={"/checkout/portal"}>
-                              <Button className="rounded-full w-full">
+                              <Button
+                                size={"lg"}
+                                className="rounded-full w-full"
+                              >
                                 Downgrade
                               </Button>
                             </Link>
                           ) : (
                             <Link href={"/checkout/portal"}>
-                              <Button className="rounded-full w-full">
+                              <Button
+                                size={"lg"}
+                                className="rounded-full w-full"
+                              >
                                 Upgrade
                               </Button>
                             </Link>
@@ -138,7 +141,7 @@ export function PricingTable({
                             : "" + item.plan.stripe_price_monthly_id)
                         }
                       >
-                        <Button className="rounded-full w-full">
+                        <Button size={"lg"} className="rounded-full w-full">
                           Get Started
                         </Button>
                       </Link>

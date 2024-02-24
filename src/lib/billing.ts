@@ -4,7 +4,7 @@ import Stripe from 'stripe';
 import { prisma } from './database';
 
 export const stripe = new Stripe(serverEnv.STRIPE_SECRET, {
-    apiVersion: '2023-08-16'
+    apiVersion: "2023-10-16"
 });
 
 export type CompletedPlan = {

@@ -12,7 +12,6 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Button
           variant="ghost"
-          size={"xs"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Email
@@ -27,7 +26,6 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Button
           variant="ghost"
-          size={"xs"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
@@ -42,7 +40,6 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Button
           variant="ghost"
-          size={"xs"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Role
@@ -57,7 +54,6 @@ export const columns: ColumnDef<User>[] = [
       return (
         <Button
           variant="ghost"
-          size={"xs"}
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Joined

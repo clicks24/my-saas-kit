@@ -16,7 +16,7 @@ export default async function Page() {
     <div className="grid place-items-center">
       <div className="flex items-center gap-2 animate-pulse">
         <Loader2 className="animate-spin" size={18} />
-        <p className="text-sm font-mono">Loading..</p>
+        <p className="text-sm font-mono">Loading...</p>
       </div>
     </div>
   );

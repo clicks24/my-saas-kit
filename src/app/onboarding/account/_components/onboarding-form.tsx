@@ -29,7 +29,7 @@ const onboardingSchema = z.object({
 
 export function OnboardingForm({ user }: { user: User }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const form = useForm<z.infer<typeof onboardingSchema>>({
     //@ts-ignore
@@ -41,7 +41,7 @@ export function OnboardingForm({ user }: { user: User }) {
   });
 
   async function onSubmit(values: z.infer<typeof onboardingSchema>) {
-    setLoading(true)
+    setLoading(true);
     await completeOnboarding(values.name, values.last_name);
     toast({
       title: "Updated",
@@ -49,15 +49,13 @@ export function OnboardingForm({ user }: { user: User }) {
       variant: "default",
     });
     router.push("/onboarding/plan");
-    setLoading(false)
+    setLoading(false);
   }
 
   return (
     <div className="flex flex-col m-auto w-full ">
       <div className="flex flex-col pb-8">
-        <p className="dark:text-white text-black text-lg font-medium text-center">
-          Add Account Details
-        </p>
+        <p className=" text-lg font-medium text-left">{"Tell us about yourself"}</p>
       </div>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
