@@ -57,7 +57,7 @@ export function PricingTable({
           </div>
         </div>
       )}
-      <div className={cn("grid gap-8 grid-cols-2")}>
+      <div className={cn("grid gap-8 md:grid-cols-2")}>
         {plans.map((item, index) => (
           <div
             key={index}

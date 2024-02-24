@@ -47,7 +47,7 @@ function Features() {
           to you instantly.
         </p>
       </div>
-      <div className="grid md:grid-cols-3 grid-cols-1 gap-8">
+      <div className="grid md:grid-cols-3 grid-cols-2 gap-4 md:gap-8">
         <FeatureCard
           features={[
             "Send transactional emails",
@@ -154,7 +154,7 @@ function SocialProofCTA() {
       </div>
       <div className="max-w-3xl m-auto px-4 w-full pt-20">
         <div className="flex justify-center w-full">
-          <div className="grid sm:grid-cols-2 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             <Review review="Wicked boilerplate keep us updated!" by="RSS" />
             <Review review="love the design and simplicity.." by="Stan" />
             <Review review="thrilled to have this" by="porkensteinxp" />
