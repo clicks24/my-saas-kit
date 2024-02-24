@@ -6,6 +6,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 import localFont from "next/font/local";
+import { ExternalLink } from "lucide-react";
 
 const bodyFont = localFont({
   src: "./sf.ttf",
@@ -16,7 +17,6 @@ export const metadata: Metadata = {
   title: "SaaS Kit",
   description: "The ultimate SaaS Kit. Build this weekend, ship on monday.",
   icons: "/logo.svg",
-
 };
 
 export default function RootLayout({
@@ -34,6 +34,16 @@ export default function RootLayout({
       >
         <AuthProvider>
           <Provider>
+            <div className="fixed bg-amber-600 grid place-items-center bottom-0 z-[1000] w-full py-2 px-4">
+              <a
+                target="_blank"
+                href="https://www.saasplanet.org/#pricing"
+                className="text-center font-medium tracking-tight text-white hover:underline flex items-center gap-2"
+              >
+                You are viewing the live demo app. Click here to purchase!
+                <ExternalLink size={14} />
+              </a>
+            </div>
             {children}
           </Provider>
         </AuthProvider>
