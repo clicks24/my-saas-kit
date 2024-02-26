@@ -1,9 +1,6 @@
 import { Header } from "@/components/blocks/header";
 import { Navigation, NavigationLink } from "@/components/ui/navigation";
 import { getSignedInUser } from "@/lib/auth/helper";
-import { AlertTriangle } from "lucide-react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 export default async function DashboardLayout({
   children,
