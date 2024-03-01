@@ -5,8 +5,8 @@ import { cn } from "@/lib/utils";
 import type { Metadata } from "next";
 import "./globals.css";
 
-import localFont from "next/font/local";
 import { ExternalLink } from "lucide-react";
+import localFont from "next/font/local";
 
 const bodyFont = localFont({
   src: "./sf.ttf",
@@ -40,7 +40,7 @@ export default function RootLayout({
                 href="https://www.saasplanet.org/#pricing"
                 className="text-center font-medium tracking-tight text-white hover:underline flex items-center gap-2"
               >
-                You are viewing the live demo app. Click here to purchase!
+                New Slots Available Now!
                 <ExternalLink size={14} />
               </a>
             </div>

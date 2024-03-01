@@ -30,6 +30,11 @@ export default async function DashboardLayout({
               orientation="horizontal"
               name="Admin"
             />
+            <NavigationLink
+              href="/dashboard/slots"
+              orientation="horizontal"
+              name="Slots"
+            />
           </div>
         </Navigation>
         <div className="max-w-7xl mx-auto w-full">

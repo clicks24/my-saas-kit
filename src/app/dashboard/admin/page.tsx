@@ -1,11 +1,11 @@
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "@/components/ui/use-toast";
 import { getSignedInUser } from "@/lib/auth/helper";
 import { Role } from "@prisma/client";
 import { redirect } from "next/navigation";
 import { OverviewPage } from "./(overview)/overview";
 import { PlansPage } from "./(plans)/plans";
+import AddSlotForm from "./(slots)/_components/AddSlotForm";
 import { UsersPage } from "./(users)/users";
-import { toast } from "@/components/ui/use-toast";
 
 export default async function Page() {
   const session = await getSignedInUser();
@@ -29,6 +29,10 @@ export default async function Page() {
       <div className="flex flex-col gap-2">
         <p className="text-2xl font-semibold tracking-tight">Plans</p>
         <PlansPage />
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-semibold tracking-tight">Add Slot Form</p>
+        <AddSlotForm />
       </div>
     </main>
   );
