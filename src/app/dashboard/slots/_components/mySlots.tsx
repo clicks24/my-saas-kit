@@ -1,51 +1,49 @@
-// src/app/dashboard/slots/_components/mySlots.tsx
 import { useEffect, useState } from 'react';
-import SlotCard from './SlotCard';
+import SlotCard from './SlotCard'; // Adjust the import path to where your SlotCard component is located
 
 const MySlots = () => {
     const [slots, setSlots] = useState([]);
-    const [isLoading, setIsLoading] = useState(false); // Loading state
+    const [isLoading, setIsLoading] = useState(false);
 
-    async function fetchSlots() {
+    // Function to fetch slots from your API
+    const fetchSlots = async () => {
         setIsLoading(true);
         try {
             const response = await fetch('/api/slots/listSlot');
-            if (!response.ok) throw new Error('Failed to fetch slots');
+            if (!response.ok) {
+                throw new Error('Failed to fetch slots');
+            }
             const slotsData = await response.json();
             setSlots(slotsData);
         } catch (error) {
             console.error('Error fetching slots:', error);
+        } finally {
+            setIsLoading(false);
         }
-        setIsLoading(false);
-    }
+    };
 
+    // Fetch slots on component mount
     useEffect(() => {
         fetchSlots();
     }, []);
 
-    async function toggleBooking(slotId, isBooked, userEmail) {
-        setIsLoading(true); // Set loading state
-        try {
-            const response = await fetch('/api/slots/toggleBooking', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ slotId, isBooked, userEmail }),
-            });
-            if (!response.ok) throw new Error('Failed to toggle booking');
-            await fetchSlots(); // Refresh slots list after toggle
-        } catch (error) {
-            console.error('Failed to toggle booking:', error);
-        }
-        setIsLoading(false); // Reset loading state
-    }
-
-    if (isLoading) return <div>Loading...</div>; // Show loading indicator
+    // Function to be called to refresh the slots list after a booking operation
+    const refreshSlots = () => {
+        fetchSlots();
+    };
 
     return (
-        <div>
-            {slots.map((slot) => (
-                <SlotCard key={slot.id} slot={slot} toggleBooking={toggleBooking} />
-            ))}
+        <div className="p-4">
+            <h1 className="text-3xl font-semibold mb-8">Available Slots</h1>
+            {isLoading ? (
+                <p>Loading slots...</p>
+            ) : (
+                slots.map(slot => (
+                    <SlotCard key={slot.id} slot={slot} onToggleSuccess={refreshSlots} />
+                ))
+            )}
         </div>
     );
 };
+
+export default MySlots;

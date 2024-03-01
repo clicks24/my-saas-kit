@@ -1,8 +1,8 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/components/ui/button"; // Ensure this path matches your project structure
 import { useSession } from "next-auth/react";
 import { useState } from 'react';
 
-const SlotCard = ({ slot, toggleBooking }) => {
+const SlotCard = ({ slot, onToggleSuccess }) => {
     const { data: session } = useSession();
     const [isLoading, setIsLoading] = useState(false);
 
@@ -12,15 +12,31 @@ const SlotCard = ({ slot, toggleBooking }) => {
             return;
         }
 
-        setIsLoading(true); // Start loading
+        setIsLoading(true);
 
         try {
-            await toggleBooking(slot.id, slot.isBooked, session.user.email);
-            console.log(`Slot ${slot.isBooked ? 'unbooked' : 'booked'}:`, slot);
+            const response = await fetch('/api/slots/toggleBooking', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    slotId: slot.id,
+                    userEmail: session.user.email
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to toggle slot booking');
+            }
+
+            // Optionally, you can handle the response data if needed
+            // const result = await response.json();
+            // console.log('Toggle booking result:', result);
+
+            onToggleSuccess(); // Trigger refresh of slots list in the parent component
         } catch (error) {
-            console.error(`Error ${slot.isBooked ? 'unbooking' : 'booking'} slot:`, error);
+            console.error('Error toggling slot booking:', error);
         } finally {
-            setIsLoading(false); // End loading regardless of outcome
+            setIsLoading(false);
         }
     };
 
