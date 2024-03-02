@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { OverviewPage } from "./(overview)/overview";
 import { PlansPage } from "./(plans)/plans";
 import AddSlotForm from "./(slots)/_components/AddSlotForm";
+import AdminSlotList from "./(slots)/_components/AdminSlotList";
 import { UsersPage } from "./(users)/users";
 
 export default async function Page() {
@@ -21,7 +22,14 @@ export default async function Page() {
   return (
     <main className="flex flex-col gap-8">
       <p className="text-2xl font-semibold tracking-tight">Admin</p>
-      <OverviewPage />
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-semibold tracking-tight">Add Slot Form</p>
+        <AddSlotForm />
+      </div>
+      <div className="flex flex-col gap-2">
+        <p className="text-2xl font-semibold tracking-tight">Admin Slot List</p>
+        <AdminSlotList />
+      </div>
       <div className="flex flex-col gap-2">
         <p className="text-2xl font-semibold tracking-tight">Users</p>
         <UsersPage />
@@ -30,10 +38,7 @@ export default async function Page() {
         <p className="text-2xl font-semibold tracking-tight">Plans</p>
         <PlansPage />
       </div>
-      <div className="flex flex-col gap-2">
-        <p className="text-2xl font-semibold tracking-tight">Add Slot Form</p>
-        <AddSlotForm />
-      </div>
+      <OverviewPage />
     </main>
   );
 }

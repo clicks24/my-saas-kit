@@ -10,13 +10,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(405).json({ message: 'Method not allowed' });
     }
 
+    const { startTime, endTime, email, promoPay } = req.body;
     try {
         const newSlot = await prisma.slot.create({
             data: {
-                startTime: new Date(req.body.startTime), // Use appropriate date string
-                endTime: new Date(req.body.endTime),     // Use appropriate date string
-                isBooked: false,                         // Default to false
-                email: "",                               // Default to empty string
+                startTime: new Date(startTime),
+                endTime: new Date(endTime),
+                isBooked: email ? true : false, // Automatically mark as booked if email is provided
+                email: email || null, // Assign email if provided, else null
+                promoPay: promoPay ? parseFloat(promoPay) : null, // Parse promoPay to float, default to null if not provided
             },
         });
 
