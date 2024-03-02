@@ -1,8 +1,13 @@
 import { useEffect, useState } from 'react';
 import SlotCard from './SlotCard'; // Adjust the import path to where your SlotCard component is located
 
+interface Slot {
+    id: string;
+    // Add other properties here
+}
+
 const MySlots = () => {
-    const [slots, setSlots] = useState([]);
+    const [slots, setSlots] = useState<Slot[]>([]); // Provide type for slots state variable
     const [isLoading, setIsLoading] = useState(false);
 
     // Function to fetch slots from your API
