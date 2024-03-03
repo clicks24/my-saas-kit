@@ -1,6 +1,9 @@
 "use client"
 
-import React, { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import React, { useEffect, useRef, useState } from 'react';
 import AdminSlotCard from './AdminSlotCard';
 
 interface Slot {
@@ -19,6 +22,13 @@ const AdminSlotList: React.FC = () => {
     const [promoPayFilter, setPromoPayFilter] = useState<number | null>(null);
     const [isBookedFilter, setIsBookedFilter] = useState<boolean | null>(null);
 
+    const startDateRef = useRef<HTMLLabelElement>(null);
+    const promoPayRef = useRef<HTMLLabelElement>(null);
+
+    useEffect(() => {
+        fetchSlots();
+    }, []);
+
     const fetchSlots = async () => {
         setIsLoading(true);
         try {
@@ -33,10 +43,6 @@ const AdminSlotList: React.FC = () => {
         }
     };
 
-    useEffect(() => {
-        fetchSlots();
-    }, []);
-
     const handleDateChange = (date: Date | undefined) => {
         setStartDateFilter(date ? date.toISOString().slice(0, 10) : '');
     };
@@ -46,14 +52,26 @@ const AdminSlotList: React.FC = () => {
         setPromoPayFilter(isNaN(promoPay) ? null : promoPay);
     };
 
-    const handleBookingStatusChange = (value: string) => {
-        setIsBookedFilter(value === 'booked' ? true : value === 'available' ? false : null);
+    const handleBookingStatusChange = (value: boolean) => {
+        setIsBookedFilter(value);
     };
 
     const clearFilters = () => {
         setStartDateFilter('');
         setPromoPayFilter(null);
         setIsBookedFilter(null);
+    };
+
+    useEffect(() => {
+        adjustLabelWidth(startDateRef);
+        adjustLabelWidth(promoPayRef);
+    }, [startDateFilter, promoPayFilter]);
+
+    const adjustLabelWidth = (ref: React.RefObject<HTMLLabelElement>) => {
+        if (ref.current) {
+            const labelWidth = ref.current.offsetWidth;
+            ref.current.style.width = `${labelWidth}px`;
+        }
     };
 
     const filteredSlots = slots.filter(slot => {
@@ -77,24 +95,20 @@ const AdminSlotList: React.FC = () => {
         <div className="p-4">
             <h1 className="text-3xl font-semibold mb-8">Manage Slots</h1>
             <div className="flex flex-wrap gap-4 mb-4">
-                <div>
-                    <label htmlFor="startDate">Select Start Date:</label>
-                    <input type="date" id="startDate" onChange={e => handleDateChange(new Date(e.target.value))} />
+                <div className="flex items-center"> {/* Removed flex-shrink-0 */}
+                    <label htmlFor="startDate" className="mr-2" ref={startDateRef}>Date:</label>
+                    <Input type="date" id="startDate" onChange={e => handleDateChange(new Date(e.target.value))} />
                 </div>
-                <div>
-                    <label htmlFor="promoPay">Promo Pay:</label>
-                    <input type="number" id="promoPay" onChange={e => handlePromoPayChange(e.target.value)} />
+                <div className="flex items-center"> {/* Removed flex-shrink-0 */}
+                    <label htmlFor="promoPay" className="mr-2" ref={promoPayRef}>Promo:</label>
+                    <Input type="number" id="promoPay" onChange={e => handlePromoPayChange(e.target.value)} />
                 </div>
-                <div>
-                    <label htmlFor="bookingStatus">Booking Status:</label>
-                    <select id="bookingStatus" onChange={e => handleBookingStatusChange(e.target.value)}>
-                        <option value="">All</option>
-                        <option value="booked">Booked</option>
-                        <option value="available">Available</option>
-                    </select>
+                <div className="flex items-center flex-shrink-0"> {/* Added flex-shrink-0 to prevent wrapping */}
+                    <label htmlFor="bookingStatus" className="mr-2">Booking Status:</label>
+                    <Switch id="bookingStatus" onChange={handleBookingStatusChange} />
                 </div>
-                <div>
-                    <button onClick={clearFilters}>Clear Filters</button>
+                <div className="flex items-center"> {/* No changes */}
+                    <Button onClick={clearFilters}>Clear Filters</Button>
                 </div>
             </div>
             {isLoading ? (
@@ -116,7 +130,4 @@ const AdminSlotList: React.FC = () => {
     );
 };
 
-export default AdminSlotList;
-
-
-
+export default AdminSlotList; 
