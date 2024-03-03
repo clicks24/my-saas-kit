@@ -11,8 +11,6 @@ import { DateRange } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 import AdminSlotCard, { Slot } from './AdminSlotCard'; // Import AdminSlotCard component
 
-
-
 const AdminSlotList: React.FC = () => {
     const [slots, setSlots] = React.useState<Slot[]>([]);
     const [isLoading, setIsLoading] = React.useState(true);
@@ -62,8 +60,7 @@ const AdminSlotList: React.FC = () => {
     };
 
     return (
-        <div className="p-4">
-            <h1 className="text-3xl font-semibold mb-8">Manage Slots</h1>
+        <div className="p-4 flex flex-col items-center"> {/* Changed class to flex-col */}
             <div className="flex flex-wrap gap-4 mb-4">
                 <div className="flex items-center">
                     <Popover>
@@ -132,7 +129,7 @@ const AdminSlotList: React.FC = () => {
             {isLoading ? (
                 <p>Loading slots...</p>
             ) : (
-                <div className="flex flex-wrap -mx-4">
+                <div className="flex flex-wrap -mx-4 justify-center"> {/* Centered content */}
                     {slots
                         .filter(slot => {
                             // Adjust the filter logic for date range
