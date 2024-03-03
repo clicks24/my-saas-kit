@@ -1,40 +1,34 @@
 "use client"
 
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Switch } from '@/components/ui/switch';
-import React, { useEffect, useRef, useState } from 'react';
-import AdminSlotCard from './AdminSlotCard';
+import { Calendar } from '@/components/ui/calendar'; // Import the Calendar component
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { CalendarIcon } from '@radix-ui/react-icons';
+import { format } from 'date-fns';
+import * as React from 'react';
+import { DateRange } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
+import AdminSlotCard, { Slot } from './AdminSlotCard'; // Import AdminSlotCard component
 
-interface Slot {
-    id: string;
-    startTime: string;
-    endTime: string;
-    email: string | null;
-    promoPay: number;
-    isBooked: boolean;
-}
+
 
 const AdminSlotList: React.FC = () => {
-    const [slots, setSlots] = useState<Slot[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [startDateFilter, setStartDateFilter] = useState<string>('');
-    const [promoPayFilter, setPromoPayFilter] = useState<number | null>(null);
-    const [isBookedFilter, setIsBookedFilter] = useState<boolean | null>(null);
-
-    const startDateRef = useRef<HTMLLabelElement>(null);
-    const promoPayRef = useRef<HTMLLabelElement>(null);
-
-    useEffect(() => {
-        fetchSlots();
-    }, []);
+    const [slots, setSlots] = React.useState<Slot[]>([]);
+    const [isLoading, setIsLoading] = React.useState(true);
+    const [dateRangeFilter, setDateRangeFilter] = React.useState<DateRange | undefined>();
+    const [promoPayFilter, setPromoPayFilter] = React.useState<number | null>(null);
+    const [isBookedFilter, setIsBookedFilter] = React.useState<boolean | null>(null);
 
     const fetchSlots = async () => {
         setIsLoading(true);
         try {
             const response = await fetch('/api/slots/listSlot');
-            if (!response.ok) throw new Error('Failed to fetch slots');
+            if (!response.ok) {
+                throw new Error('Failed to fetch slots');
+            }
             const slotsData: Slot[] = await response.json();
+            console.log('Fetched slots:', slotsData); // Log fetched slots
             setSlots(slotsData);
         } catch (error) {
             console.error('Error fetching slots:', error.message);
@@ -43,71 +37,95 @@ const AdminSlotList: React.FC = () => {
         }
     };
 
-    const handleDateChange = (date: Date | undefined) => {
-        setStartDateFilter(date ? date.toISOString().slice(0, 10) : '');
-    };
+    React.useEffect(() => {
+        fetchSlots();
+    }, []);
 
     const handlePromoPayChange = (value: string) => {
-        const promoPay = parseFloat(value);
-        setPromoPayFilter(isNaN(promoPay) ? null : promoPay);
+        setPromoPayFilter(value !== 'null' ? parseFloat(value) : null);
     };
 
-    const handleBookingStatusChange = (value: boolean) => {
-        setIsBookedFilter(value);
+    const handleBookingStatusChange = (value: string) => {
+        setIsBookedFilter(value === 'true');
     };
 
     const clearFilters = () => {
-        setStartDateFilter('');
+        setDateRangeFilter(undefined);
         setPromoPayFilter(null);
         setIsBookedFilter(null);
     };
 
-    useEffect(() => {
-        adjustLabelWidth(startDateRef);
-        adjustLabelWidth(promoPayRef);
-    }, [startDateFilter, promoPayFilter]);
-
-    const adjustLabelWidth = (ref: React.RefObject<HTMLLabelElement>) => {
-        if (ref.current) {
-            const labelWidth = ref.current.offsetWidth;
-            ref.current.style.width = `${labelWidth}px`;
-        }
+    // Function to get unique and sorted promo pay values
+    const getUniqueSortedPromoPays = () => {
+        const uniquePromoPays = Array.from(new Set(slots.map(slot => slot.promoPay))).sort((a, b) => a - b);
+        return uniquePromoPays;
     };
-
-    const filteredSlots = slots.filter(slot => {
-        const slotStartDate = slot.startTime.slice(0, 10);
-        const slotPromoPay = slot.promoPay;
-        const slotIsBooked = slot.isBooked;
-
-        if (!startDateFilter && promoPayFilter === null && isBookedFilter === null) {
-            return true; // No filters applied, show all slots
-        }
-
-        // Check if slot matches all applied filters
-        return (
-            (!startDateFilter || slotStartDate === startDateFilter) &&
-            (promoPayFilter === null || slotPromoPay === promoPayFilter) &&
-            (isBookedFilter === null || slotIsBooked === isBookedFilter)
-        );
-    });
 
     return (
         <div className="p-4">
             <h1 className="text-3xl font-semibold mb-8">Manage Slots</h1>
             <div className="flex flex-wrap gap-4 mb-4">
-                <div className="flex items-center"> {/* Removed flex-shrink-0 */}
-                    <label htmlFor="startDate" className="mr-2" ref={startDateRef}>Date:</label>
-                    <Input type="date" id="startDate" onChange={e => handleDateChange(new Date(e.target.value))} />
+                <div className="flex items-center">
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button variant="outline" className="w-[300px] justify-start text-left font-normal">
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {dateRangeFilter?.from ? (
+                                    dateRangeFilter.to ? (
+                                        `${format(dateRangeFilter.from, 'LLL dd, y')} - ${format(dateRangeFilter.to, 'LLL dd, y')}`
+                                    ) : (
+                                        format(dateRangeFilter.from, 'LLL dd, y')
+                                    )
+                                ) : (
+                                    'Pick a date range'
+                                )}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                initialFocus
+                                mode="range"
+                                defaultMonth={dateRangeFilter?.from}
+                                selected={dateRangeFilter}
+                                onSelect={setDateRangeFilter}
+                                numberOfMonths={2}
+                            />
+                        </PopoverContent>
+                    </Popover>
                 </div>
-                <div className="flex items-center"> {/* Removed flex-shrink-0 */}
-                    <label htmlFor="promoPay" className="mr-2" ref={promoPayRef}>Promo:</label>
-                    <Input type="number" id="promoPay" onChange={e => handlePromoPayChange(e.target.value)} />
+                <div className="flex items-center">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                                {promoPayFilter !== null ? `Promo Pay: ${promoPayFilter}` : 'Choose Promo Pay'}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {getUniqueSortedPromoPays().map(promoPay => (
+                                <DropdownMenuItem
+                                    key={promoPay}
+                                    onSelect={() => handlePromoPayChange(promoPay.toString())}
+                                >
+                                    {promoPay}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <div className="flex items-center flex-shrink-0"> {/* Added flex-shrink-0 to prevent wrapping */}
-                    <label htmlFor="bookingStatus" className="mr-2">Booking Status:</label>
-                    <Switch id="bookingStatus" onChange={handleBookingStatusChange} />
+                <div className="flex items-center">
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button variant="outline" className="w-[240px] justify-start text-left font-normal">
+                                {isBookedFilter !== null ? `Booking Status: ${isBookedFilter ? 'Booked' : 'Available'}` : 'Booking Status'}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuItem onSelect={() => handleBookingStatusChange('true')}>Booked</DropdownMenuItem>
+                            <DropdownMenuItem onSelect={() => handleBookingStatusChange('false')}>Available</DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <div className="flex items-center"> {/* No changes */}
+                <div className="flex items-center">
                     <Button onClick={clearFilters}>Clear Filters</Button>
                 </div>
             </div>
@@ -115,19 +133,30 @@ const AdminSlotList: React.FC = () => {
                 <p>Loading slots...</p>
             ) : (
                 <div className="flex flex-wrap -mx-4">
-                    {filteredSlots.length > 0 ? (
-                        filteredSlots.map(slot => (
+                    {slots
+                        .filter(slot => {
+                            // Adjust the filter logic for date range
+                            if (dateRangeFilter && dateRangeFilter.from && dateRangeFilter.to) {
+                                const slotDate = new Date(slot.startTime);
+                                return slotDate >= dateRangeFilter.from && slotDate <= dateRangeFilter.to;
+                            }
+                            if (promoPayFilter !== null && slot.promoPay !== promoPayFilter) {
+                                return false;
+                            }
+                            if (isBookedFilter !== null && slot.isBooked !== isBookedFilter) {
+                                return false;
+                            }
+                            return true;
+                        })
+                        .map(slot => (
                             <div key={slot.id} className="p-4 sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4">
-                                <AdminSlotCard slot={slot} refreshSlots={fetchSlots} />
+                                <AdminSlotCard slot={slot} />
                             </div>
-                        ))
-                    ) : (
-                        <p>No slots available.</p>
-                    )}
+                        ))}
                 </div>
             )}
         </div>
     );
 };
 
-export default AdminSlotList; 
+export default AdminSlotList;
