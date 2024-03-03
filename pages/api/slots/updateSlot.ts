@@ -18,12 +18,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 startTime: new Date(startTime),
                 endTime: new Date(endTime),
                 email,
-                promoPay,
+                promoPay: parseFloat(promoPay),
                 isBooked,
             },
         });
 
-        res.status(200).json(updatedSlot);
+        res.json(updatedSlot);
     } catch (error) {
         console.error('Error updating slot:', error);
         res.status(500).json({ message: 'Failed to update slot', error: error.message });

@@ -41,8 +41,37 @@ const AdminSlotCard: React.FC<AdminSlotCardProps> = ({ slot, refreshSlots }) => 
 
 
     const handleUpdate = async () => {
-        // Update logic here
+        const updatedDetails = {
+            id: slot.id,
+            startTime: slot.startTime, // Assume these values are managed in state if editable
+            endTime: slot.endTime,
+            email: email, // `email` state holds the updated email value
+            promoPay: promoPay, // `promoPay` state should be a string that we convert back to a number
+            isBooked: slot.isBooked,
+        };
+
+        try {
+            const response = await fetch('/api/slots/updateSlot', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(updatedDetails),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to update slot');
+            }
+
+            // Assuming you have a method to close the dialog/modal
+            setIsDialogOpen(false);
+
+            // Refresh the slots list to reflect the update
+            refreshSlots();
+        } catch (error) {
+            console.error('Error updating slot:', error);
+            // Optionally, handle the error (e.g., display an error message)
+        }
     };
+
 
     return (
         <Card className="min-w-0 rounded-lg overflow-hidden shadow-xs mb-4">
