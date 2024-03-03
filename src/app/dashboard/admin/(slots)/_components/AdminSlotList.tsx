@@ -1,11 +1,8 @@
 "use client"
 
-import { Input } from '@/components/ui/input';
-import { Select } from '@/components/ui/select';
 import React, { useEffect, useState } from 'react';
-import AdminSlotCard from './AdminSlotCard'; // Ensure this is the correct path
+import AdminSlotCard from './AdminSlotCard';
 
-// Define the Slot interface
 interface Slot {
     id: string;
     startTime: string;
@@ -18,9 +15,9 @@ interface Slot {
 const AdminSlotList: React.FC = () => {
     const [slots, setSlots] = useState<Slot[]>([]);
     const [isLoading, setIsLoading] = useState(true);
-    const [startDateFilter, setStartDateFilter] = useState('');
-    const [promoPayFilter, setPromoPayFilter] = useState('');
-    const [statusFilter, setStatusFilter] = useState('');
+    const [startDateFilter, setStartDateFilter] = useState<string>('');
+    const [promoPayFilter, setPromoPayFilter] = useState<number | null>(null);
+    const [isBookedFilter, setIsBookedFilter] = useState<boolean | null>(null);
 
     const fetchSlots = async () => {
         setIsLoading(true);
@@ -40,31 +37,73 @@ const AdminSlotList: React.FC = () => {
         fetchSlots();
     }, []);
 
+    const handleDateChange = (date: Date | undefined) => {
+        setStartDateFilter(date ? date.toISOString().slice(0, 10) : '');
+    };
+
+    const handlePromoPayChange = (value: string) => {
+        const promoPay = parseFloat(value);
+        setPromoPayFilter(isNaN(promoPay) ? null : promoPay);
+    };
+
+    const handleBookingStatusChange = (value: string) => {
+        setIsBookedFilter(value === 'booked' ? true : value === 'available' ? false : null);
+    };
+
+    const clearFilters = () => {
+        setStartDateFilter('');
+        setPromoPayFilter(null);
+        setIsBookedFilter(null);
+    };
+
     const filteredSlots = slots.filter(slot => {
-        return (startDateFilter ? new Date(slot.startTime).toISOString().includes(startDateFilter) : true) &&
-            (promoPayFilter ? slot.promoPay.toString().includes(promoPayFilter) : true) &&
-            (statusFilter ? String(slot.isBooked) === statusFilter : true);
+        const slotStartDate = slot.startTime.slice(0, 10);
+        const slotPromoPay = slot.promoPay;
+        const slotIsBooked = slot.isBooked;
+
+        if (!startDateFilter && promoPayFilter === null && isBookedFilter === null) {
+            return true; // No filters applied, show all slots
+        }
+
+        // Check if slot matches all applied filters
+        return (
+            (!startDateFilter || slotStartDate === startDateFilter) &&
+            (promoPayFilter === null || slotPromoPay === promoPayFilter) &&
+            (isBookedFilter === null || slotIsBooked === isBookedFilter)
+        );
     });
 
     return (
         <div className="p-4">
             <h1 className="text-3xl font-semibold mb-8">Manage Slots</h1>
             <div className="flex flex-wrap gap-4 mb-4">
-                <Input placeholder="Filter by Start Date (YYYY-MM-DD)" value={startDateFilter} onChange={e => setStartDateFilter(e.target.value)} />
-                <Input placeholder="Filter by Promo Pay" value={promoPayFilter} onChange={e => setPromoPayFilter(e.target.value)} />
-                <Select value={statusFilter} onChange={e => setStatusFilter(e.target.value)}>
-                    <option value="">All Statuses</option>
-                    <option value="true">Booked</option>
-                    <option value="false">Available</option>
-                </Select>
+                <div>
+                    <label htmlFor="startDate">Select Start Date:</label>
+                    <input type="date" id="startDate" onChange={e => handleDateChange(new Date(e.target.value))} />
+                </div>
+                <div>
+                    <label htmlFor="promoPay">Promo Pay:</label>
+                    <input type="number" id="promoPay" onChange={e => handlePromoPayChange(e.target.value)} />
+                </div>
+                <div>
+                    <label htmlFor="bookingStatus">Booking Status:</label>
+                    <select id="bookingStatus" onChange={e => handleBookingStatusChange(e.target.value)}>
+                        <option value="">All</option>
+                        <option value="booked">Booked</option>
+                        <option value="available">Available</option>
+                    </select>
+                </div>
+                <div>
+                    <button onClick={clearFilters}>Clear Filters</button>
+                </div>
             </div>
             {isLoading ? (
                 <p>Loading slots...</p>
             ) : (
-                <div className="flex flex-wrap -mx-2">
+                <div className="flex flex-wrap -mx-4">
                     {filteredSlots.length > 0 ? (
                         filteredSlots.map(slot => (
-                            <div key={slot.id} className="p-2 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+                            <div key={slot.id} className="p-4 sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4">
                                 <AdminSlotCard slot={slot} refreshSlots={fetchSlots} />
                             </div>
                         ))
@@ -78,4 +117,6 @@ const AdminSlotList: React.FC = () => {
 };
 
 export default AdminSlotList;
+
+
 
