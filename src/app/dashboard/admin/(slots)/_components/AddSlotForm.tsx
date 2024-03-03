@@ -1,86 +1,120 @@
 "use client"
 
+import { CalendarIcon } from "@radix-ui/react-icons";
+import { format } from "date-fns";
 import { useState } from 'react';
 
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import {
+    Popover,
+    PopoverContent,
+    PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+
 const AddSlotForm = () => {
-    const [startTime, setStartTime] = useState('');
-    const [endTime, setEndTime] = useState('');
-    const [email, setEmail] = useState(''); // Optional, use if you want to pre-assign slots
-    const [feedbackMessage, setFeedbackMessage] = useState(''); // Feedback for the admin
+    const [startDate, setStartDate] = useState<Date>();
+    const [endDate, setEndDate] = useState<Date>();
+    const [promoPay, setPromoPay] = useState<number | null>(null);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            const response = await fetch('/api/slots/createSlot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    startTime,
-                    endTime,
-                    email, // Include or omit based on your use case
-                }),
-            });
-
-            if (response.ok) {
-                // Provide feedback to the admin
-                setFeedbackMessage('Slot added successfully');
-                // Reset the form fields
-                setStartTime('');
-                setEndTime('');
-                setEmail('');
-            } else {
-                // Provide feedback on failure
-                setFeedbackMessage('Failed to add slot. Please try again.');
-            }
+            // Add your fetch logic here
+            console.log("Form submitted!");
         } catch (error) {
             console.error('Error submitting form:', error);
-            // Provide error feedback
-            setFeedbackMessage('An error occurred. Please try again.');
         }
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
+        <div className="flex flex-col items-center">
+            <div className="flex gap-4 mb-4">
                 <div>
-                    <label htmlFor="startTime">Start Time:</label>
-                    <input
-                        type="datetime-local"
-                        id="startTime"
-                        value={startTime}
-                        onChange={(e) => setStartTime(e.target.value)}
-                        required
-                    />
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "w-[240px] justify-start text-left font-normal",
+                                    !startDate && "text-muted-foreground"
+                                )}
+                            >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {startDate ? format(startDate, "PPP") : <span>Start Date and Time</span>}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={startDate}
+                                onSelect={setStartDate}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
                 </div>
                 <div>
-                    <label htmlFor="endTime">End Time:</label>
-                    <input
-                        type="datetime-local"
-                        id="endTime"
-                        value={endTime}
-                        onChange={(e) => setEndTime(e.target.value)}
-                        required
-                    />
+                    <Popover>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant={"outline"}
+                                className={cn(
+                                    "w-[240px] justify-start text-left font-normal",
+                                    !endDate && "text-muted-foreground"
+                                )}
+                            >
+                                <CalendarIcon className="mr-2 h-4 w-4" />
+                                {endDate ? format(endDate, "PPP") : <span>End Date and Time</span>}
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <Calendar
+                                mode="single"
+                                selected={endDate}
+                                onSelect={setEndDate}
+                                initialFocus
+                            />
+                        </PopoverContent>
+                    </Popover>
                 </div>
-                {/* Optional: For pre-assigning slots */}
                 <div>
-                    <label htmlFor="email">Email (optional):</label>
-                    <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Button
+                                variant="outline"
+                                className="w-[240px] justify-start text-left font-normal"
+                            >
+                                {promoPay !== null ? `Promo Pay: ${promoPay}` : 'Choose Promo Pay'}
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            {[...Array(10).keys()].map(number => (
+                                <DropdownMenuItem
+                                    key={number + 1}
+                                    onSelect={() => setPromoPay(number + 1)}
+                                >
+                                    {number + 1}
+                                </DropdownMenuItem>
+                            ))}
+                        </DropdownMenuContent>
+                    </DropdownMenu>
                 </div>
-                <button type="submit">Add Slot</button>
-            </form>
-            {/* Feedback Message Display */}
-            {feedbackMessage && <p>{feedbackMessage}</p>}
-        </>
+                <div className="flex items-end"> {/* Align the button with the other form elements */}
+                    <Button onClick={handleSubmit}>Add Slot</Button>
+                </div>
+            </div>
+        </div>
     );
 };
 
 export default AddSlotForm;
+

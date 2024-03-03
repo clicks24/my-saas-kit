@@ -20,7 +20,6 @@ export default async function Page() {
 
   return (
     <main className="flex flex-col gap-8">
-      <OverviewPage />
       <p className="text-2xl font-semibold tracking-tight">Admin</p>
       <div className="flex flex-col gap-2">
         <p className="text-2xl font-semibold tracking-tight">Add Slot Form</p>
@@ -33,6 +32,7 @@ export default async function Page() {
       <div className="flex flex-col gap-2">
         <p className="text-2xl font-semibold tracking-tight">Users</p>
         <UsersPage />
+        <OverviewPage />
       </div>
     </main>
   );
