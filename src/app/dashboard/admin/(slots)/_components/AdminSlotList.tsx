@@ -61,16 +61,21 @@ const AdminSlotList: React.FC = () => {
             {isLoading ? (
                 <p>Loading slots...</p>
             ) : (
-                filteredSlots.length > 0 ? (
-                    filteredSlots.map(slot => (
-                        <AdminSlotCard key={slot.id} slot={slot} refreshSlots={fetchSlots} />
-                    ))
-                ) : (
-                    <p>No slots available.</p>
-                )
+                <div className="flex flex-wrap -mx-2">
+                    {filteredSlots.length > 0 ? (
+                        filteredSlots.map(slot => (
+                            <div key={slot.id} className="p-2 sm:w-1/2 md:w-1/3 lg:w-1/4 xl:w-1/5">
+                                <AdminSlotCard slot={slot} refreshSlots={fetchSlots} />
+                            </div>
+                        ))
+                    ) : (
+                        <p>No slots available.</p>
+                    )}
+                </div>
             )}
         </div>
     );
 };
 
 export default AdminSlotList;
+
