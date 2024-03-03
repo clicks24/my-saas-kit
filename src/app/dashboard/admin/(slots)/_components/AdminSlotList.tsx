@@ -1,9 +1,10 @@
 "use client"
 
-import { useEffect, useState } from 'react';
-import AdminSlotCard from './AdminSlotCard'; // Adjust the import path as necessary
+import Grid from '@/components/ui/grid'; // Adjust this import path as necessary
+import React, { useEffect, useState } from 'react';
+import AdminSlotCard from './AdminSlotCard'; // Ensure this is the correct path
 
-// Extending the Slot interface to include all properties needed for admin
+// Define the Slot interface
 interface Slot {
     id: string;
     startTime: string;
@@ -13,45 +14,32 @@ interface Slot {
     isBooked: boolean;
 }
 
-const AdminSlotList = () => {
+const AdminSlotList: React.FC = () => {
     const [slots, setSlots] = useState<Slot[]>([]);
     const [isLoading, setIsLoading] = useState(true);
 
-    // Function to fetch slots from your API
+    // Function to fetch slots from the API
     const fetchSlots = async () => {
         setIsLoading(true);
         try {
             const response = await fetch('/api/slots/listSlot');
-            if (!response.ok) {
-                throw new Error('Failed to fetch slots');
-            }
-            const slotsData = await response.json();
+            if (!response.ok) throw new Error('Failed to fetch slots');
+            const slotsData: Slot[] = await response.json();
             setSlots(slotsData);
         } catch (error) {
-            console.error('Error fetching slots:', error);
-            // Consider showing an error message to the user here
+            console.error('Error fetching slots:', error.message);
         } finally {
             setIsLoading(false);
         }
     };
 
-    // Fetch slots on component mount
     useEffect(() => {
         fetchSlots();
     }, []);
 
-    // Define handlers for editing and deleting slots
-    const handleEditSlot = (slot: Slot) => {
-        // Implement or invoke your edit functionality here
-        // This might involve setting a state to open an edit modal or form
-        console.log('Editing slot:', slot.id);
-    };
-
-    const handleDeleteSlot = async (slotId: string) => {
-        // Implement or invoke your delete functionality here
-        // This might involve calling an API to delete a slot and then refreshing the list
-        console.log('Deleting slot:', slotId);
-        fetchSlots(); // Refresh the list after deletion
+    // Pass this function to AdminSlotCard to allow it to trigger a refresh of the slot list
+    const refreshSlots = () => {
+        fetchSlots();
     };
 
     return (
@@ -59,10 +47,18 @@ const AdminSlotList = () => {
             <h1 className="text-3xl font-semibold mb-8">Manage Slots</h1>
             {isLoading ? (
                 <p>Loading slots...</p>
+            ) : slots.length > 0 ? (
+                <Grid className="grid-cols-3 gap-4"> {/* Adjust the grid layout as needed */}
+                    {slots.map(slot => (
+                        <AdminSlotCard
+                            key={slot.id}
+                            slot={slot}
+                            refreshSlots={refreshSlots}
+                        />
+                    ))}
+                </Grid>
             ) : (
-                slots.map(slot => (
-                    <AdminSlotCard key={slot.id} slot={slot} onEdit={() => handleEditSlot(slot)} onDelete={() => handleDeleteSlot(slot.id)} />
-                ))
+                <p>No slots available.</p>
             )}
         </div>
     );

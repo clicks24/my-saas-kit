@@ -47,6 +47,7 @@ const SlotCard = ({ slot, onToggleSuccess }) => {
             <p>End Time: {new Date(slot.endTime).toLocaleString()}</p>
             <p>Status: {slot.isBooked ? 'Booked' : 'Available'}</p>
             <p>Booked by: {slot.email || 'N/A'}</p>
+            <p>Promo Pay: {slot.promopay || 'N/A'}</p>
             <Button disabled={isLoading} onClick={handleToggleBooking}>
                 {isLoading ? 'Processing...' : slot.isBooked ? 'Unbook Slot' : 'Book Slot'}
             </Button>
