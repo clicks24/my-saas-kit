@@ -5,37 +5,28 @@ import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { cn } from "@/lib/utils";
-import { CalendarIcon } from "@radix-ui/react-icons";
-import { addHours, format, startOfDay } from "date-fns";
-import { useState } from "react";
+import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
+import cn from 'classnames';
+import { format } from "date-fns";
+import { useState } from 'react';
 
 const AddSlotForm = () => {
     const [startDate, setStartDate] = useState<Date>();
-    const [selectedTime, setSelectedTime] = useState<string>();
+    const [endTime, setEndTime] = useState<Date>();
     const [promoPay, setPromoPay] = useState<number | null>(null);
-    const [showAlert, setShowAlert] = useState<boolean>(false);
-
-    const hours = Array.from({ length: 16 }, (_, i) => addHours(startOfDay(new Date()), i + 8));
+    const [showAlert, setShowAlert] = useState<boolean>(false); // State to control whether to show the alert
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            if (!startDate || !selectedTime) {
-                throw new Error('Date and time are required');
+            if (!startDate || !endTime) {
+                throw new Error('Start time and end time are required');
             }
-
-            const selectedDateTime = new Date(startDate);
-            const [hours, minutes] = selectedTime.split(":");
-            selectedDateTime.setHours(parseInt(hours));
-            selectedDateTime.setMinutes(parseInt(minutes));
-
-            const endTime = addHours(selectedDateTime, 1);
 
             // Prepare data to send to the server
             const data = {
-                startTime: selectedDateTime.toISOString(),
+                startTime: startDate.toISOString(),
                 endTime: endTime.toISOString(),
                 promoPay: promoPay,
             };
@@ -75,7 +66,7 @@ const AddSlotForm = () => {
                                     )}
                             >
                                 <CalendarIcon className="mr-2 h-4 w-4" />
-                                {startDate ? format(startDate, "PPP") : <span>Start Date and Time</span>}
+                                {startDate ? format(startDate, "PPP") : <span>Set Start Date</span>}
                             </Button>
                         </PopoverTrigger>
                         <PopoverContent className="w-auto p-0" align="start">
@@ -89,29 +80,38 @@ const AddSlotForm = () => {
                     </Popover>
                 </div>
                 <div>
-                    <DropdownMenu>
-                        <DropdownMenuTrigger>
+                    <Popover>
+                        <PopoverTrigger asChild>
                             <Button
-                                variant="outline"
-                                className="w-[240px] justify-start text-left font-normal"
+                                variant={"outline"}
+                                className={
+                                    cn(
+                                        "w-[240px] justify-start text-left font-normal",
+                                        !endTime && "text-muted-foreground"
+                                    )}
                             >
-                                {selectedTime ? `Selected Time: ${selectedTime}` : 'Choose Time'}
+                                <ClockIcon className="mr-2 h-4 w-4" />
+                                {endTime ? format(endTime, "hh:mm a") : <span>Set Slot Time</span>}
                             </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent>
-                            {hours.map((hour) => {
-                                const formattedTime = format(hour, "HH:mm");
-                                return (
-                                    <DropdownMenuItem
-                                        key={formattedTime}
-                                        onSelect={() => setSelectedTime(formattedTime)}
-                                    >
-                                        {formattedTime}
-                                    </DropdownMenuItem>
-                                );
-                            })}
-                        </DropdownMenuContent>
-                    </DropdownMenu>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0" align="start">
+                            <DropdownMenu>
+                                <DropdownMenuTrigger>
+                                    <Button variant="ghost">Choose Time</Button>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent>
+                                    {[...Array(14).keys()].map(hour => (
+                                        <DropdownMenuItem
+                                            key={hour + 8} // Start from 8:00 AM
+                                            onSelect={() => setEndTime(new Date(startDate).setHours(hour + 8))}
+                                        >
+                                            {format(new Date().setHours(hour + 8), "hh:mm a")}
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </PopoverContent>
+                    </Popover>
                 </div>
                 <div>
                     <DropdownMenu>
@@ -120,7 +120,7 @@ const AddSlotForm = () => {
                                 variant="outline"
                                 className="w-[240px] justify-start text-left font-normal"
                             >
-                                {promoPay !== null ? `Promo Pay: ${promoPay}` : 'Choose Promo Pay'}
+                                {promoPay !== null ? `Promo Pay: $${promoPay}` : 'Set Promo Pay'}
                             </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent>
@@ -129,19 +129,23 @@ const AddSlotForm = () => {
                                     key={number + 1}
                                     onSelect={() => setPromoPay(number + 1)}
                                 >
-                                    {number + 1}
+                                    ${number + 1}
                                 </DropdownMenuItem>
                             ))}
                         </DropdownMenuContent>
                     </DropdownMenu>
                 </div>
-                <div className="flex items-end">
+                <div className="flex items-end"> {/* Align the button with the other form elements */}
                     <Button onClick={handleSubmit}>Add Slot</Button>
                 </div>
             </div>
+            {/* Render the Alert component if showAlert is true */}
             {showAlert && (
                 <Alert variant="success" onClose={() => setShowAlert(false)}>
-                    New slot added successfully!
+                    New slot added successfully! <br />
+                    Date: {startDate && format(startDate, "PPP")} <br />
+                    Slot Time: {endTime && format(endTime, "hh:mm a")} <br />
+                    Promo Pay: {promoPay !== null ? `$${promoPay}` : 'Not set'}
                 </Alert>
             )}
         </div>
