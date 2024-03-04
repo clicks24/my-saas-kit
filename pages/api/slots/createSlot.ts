@@ -1,5 +1,3 @@
-// pages/api/slots/createSlot.ts
-
 import { PrismaClient } from '@prisma/client';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
@@ -12,6 +10,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     const { startTime, endTime, email, promoPay } = req.body;
     try {
+        if (!startTime || !endTime) {
+            return res.status(400).json({ message: 'Start time and end time are required' });
+        }
+
         const newSlot = await prisma.slot.create({
             data: {
                 startTime: new Date(startTime),
