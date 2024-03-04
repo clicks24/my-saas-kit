@@ -6,8 +6,8 @@ import { Calendar } from '@/components/ui/calendar';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CalendarIcon, ClockIcon } from "@radix-ui/react-icons";
 import cn from 'classnames';
-import { addMinutes, format } from "date-fns";
-import { useState } from 'react';
+import { addHours, format } from "date-fns";
+import { useEffect, useState } from 'react';
 
 const AddSlotForm = () => {
     const [startDate, setStartDate] = useState<Date>();
@@ -18,9 +18,8 @@ const AddSlotForm = () => {
     const handleSlotSelection = (hour: number, minute: number) => {
         if (startDate) {
             const selectedTime = new Date(startDate);
-            selectedTime.setHours(hour);
-            selectedTime.setMinutes(minute);
-            setEndTime(selectedTime);
+            selectedTime.setHours(hour, minute);
+            setEndTime(addHours(selectedTime, 1)); // Always 1 hour after the start time
         }
     };
 
@@ -60,6 +59,18 @@ const AddSlotForm = () => {
             console.error('Error submitting form:', error);
         }
     };
+
+    useEffect(() => {
+        let timeout: NodeJS.Timeout;
+
+        if (showAlert) {
+            timeout = setTimeout(() => {
+                setShowAlert(false);
+            }, 5000); // Hide alert after 5 seconds
+        }
+
+        return () => clearTimeout(timeout);
+    }, [showAlert]);
 
     return (
         <div className="flex flex-col items-center">
@@ -101,11 +112,12 @@ const AddSlotForm = () => {
                                 {[...Array(28).keys()].map((_, index) => {
                                     const hour = Math.floor(index / 2) + 8;
                                     const minute = index % 2 === 0 ? 0 : 30;
-                                    const slotTime = addMinutes(new Date().setHours(hour, minute), 30);
+                                    const slotTime = new Date().setHours(hour, minute);
                                     return (
                                         <Button
                                             key={index}
                                             variant="ghost"
+                                            className="text-white" // Set text color to white
                                             onClick={() => handleSlotSelection(hour, minute)}
                                         >
                                             {format(slotTime, "hh:mm a")}
@@ -132,6 +144,7 @@ const AddSlotForm = () => {
                                     <Button
                                         key={number + 1}
                                         variant="ghost"
+                                        className="text-white" // Set text color to white
                                         onClick={() => handlePromoPaySelection(number + 1)}
                                     >
                                         ${number + 1}
@@ -147,10 +160,10 @@ const AddSlotForm = () => {
             </div>
             {showAlert && (
                 <Alert variant="success" onClose={() => setShowAlert(false)}>
-                    New slot added successfully!<br />
-                    Date: {startDate ? format(startDate, "PPP") : "Not set"}<br />
-                    Slot Time: {endTime ? format(endTime, "hh:mm a") : "Not set"}<br />
-                    Promo Pay: {promoPay !== null ? `$${promoPay}` : "Not set"}
+                    New slot added successfully! <br />
+                    Date: {startDate && format(startDate, "PPP")} <br />
+                    Slot Time: {endTime && format(endTime, "hh:mm a")} <br />
+                    Promo Pay: {promoPay !== null ? `$${promoPay}` : 'Not set'}
                 </Alert>
             )}
         </div>
@@ -158,6 +171,3 @@ const AddSlotForm = () => {
 };
 
 export default AddSlotForm;
-
-
-
