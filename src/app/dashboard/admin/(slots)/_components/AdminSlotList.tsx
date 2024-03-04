@@ -61,7 +61,7 @@ const AdminSlotList: React.FC = () => {
 
     return (
         <div className="p-4 flex flex-col items-center"> {/* Changed class to flex-col */}
-            <div className="flex flex-wrap gap-4 mb-4">
+            <div className="flex flex-wrap gap-4 mb-4 justify-center"> {/* Centered content */}
                 <div className="flex items-center">
                     <Popover>
                         <PopoverTrigger asChild>
@@ -129,7 +129,7 @@ const AdminSlotList: React.FC = () => {
             {isLoading ? (
                 <p>Loading slots...</p>
             ) : (
-                <div className="flex flex-wrap -mx-4 justify-center"> {/* Centered content */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 justify-center"> {/* Centered content */}
                     {slots
                         .filter(slot => {
                             // Adjust the filter logic for date range
@@ -146,7 +146,7 @@ const AdminSlotList: React.FC = () => {
                             return true;
                         })
                         .map(slot => (
-                            <div key={slot.id} className="p-4 sm:w-1/2 md:w-1/2 lg:w-1/3 xl:w-1/4">
+                            <div key={slot.id} className="flex justify-center"> {/* Centered content */}
                                 <AdminSlotCard slot={slot} />
                             </div>
                         ))}
