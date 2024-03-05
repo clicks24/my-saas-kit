@@ -79,11 +79,16 @@ model Slot {
   endTime   DateTime
   isBooked  Boolean  @default(false)
   email     String?
+  fleet_id  String
   createdAt DateTime @default(now()) // Automatically set to the current date and time when a record is created
   updatedAt DateTime @updatedAt      // Automatically updated to the current date and time whenever a record is updated
   promoPay  Int?     // Optional field to represent a dollar amount in cents
 }
 
-
-
+model Agents {
+  id        String   @id @default(cuid()) @map("_id")
+  fleet_id  String
+  email     String?
+  createdAt DateTime @default(now()) // Automatically set to the current date and time when a record is created
+}
 
